@@ -26,7 +26,7 @@ export interface InteractiveTableDish {
   price: number;
   category: string;
   icon: string;
-  x: number;
+  x: number; // Coordenada porcentual en el mantel
   y: number;
 }
 

@@ -1,163 +1,154 @@
 import React, { useState } from 'react';
-import { Search, Flame, Sparkles, Leaf, ShieldAlert } from 'lucide-react';
-import { MENU_ITEMS } from '../data';
-import { MenuItem } from '../types';
+import { motion, AnimatePresence } from 'motion/react';
+import { Sparkles, Utensils, CheckCircle, Leaf, Soup, Flame, Fish, ChefHat, Cake, Wine, ChevronRight } from 'lucide-react';
+import { menuItems } from '../data';
 
-const CATEGORIES = [
-  { id: 'todos', label: 'Todo' },
+const categories = [
   { id: 'entrantes', label: 'Entrantes' },
-  { id: 'carnes', label: 'Carnes' },
-  { id: 'pescados', label: 'Pescados' },
-  { id: 'arroces', label: 'Arroces' },
-  { id: 'postres', label: 'Postres' }
+  { id: 'carnes', label: 'Carnes a la Brasa' },
+  { id: 'pescados', label: 'Pescados Frescos' },
+  { id: 'arroces', label: 'Arroces (Domingos)' },
+  { id: 'postres', label: 'Postres Caseros' },
+  { id: 'bebidas', label: 'Bebidas y Bodega' }
 ];
 
 export default function MenuCatalog() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('todos');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [vegetarianFilter, setVegetarianFilter] = useState(false);
-  const [celiacFilter, setCeliacFilter] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string>('entrantes');
+  const [filter, setFilter] = useState<'all' | 'popular' | 'vegetarian' | 'celiac'>('all');
 
-  const filteredItems = MENU_ITEMS.filter((item) => {
-    const categoryMatches = selectedCategory === 'todos' || item.category === selectedCategory;
-    const searchMatches = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const vegetarianMatches = !vegetarianFilter || item.vegetarian === true;
-    const celiacMatches = !celiacFilter || item.celiac === true;
-    
-    return categoryMatches && searchMatches && vegetarianMatches && celiacMatches;
+  const renderCategoryIcon = (catId: string, className = "w-4 h-4") => {
+    switch (catId) {
+      case 'entrantes': return <Soup className={className} />;
+      case 'carnes': return <Flame className={className} />;
+      case 'pescados': return <Fish className={className} />;
+      case 'arroces': return <ChefHat className={className} />;
+      case 'postres': return <Cake className={className} />;
+      case 'bebidas': return <Wine className={className} />;
+      default: return <Utensils className={className} />;
+    }
+  };
+
+  const filteredItems = menuItems.filter((item) => {
+    if (item.category !== activeCategory) return false;
+    if (filter === 'popular') return item.popular;
+    if (filter === 'vegetarian') return item.vegetarian;
+    if (filter === 'celiac') return item.celiac;
+    return true;
   });
 
   return (
-    <div className="flex flex-col gap-8">
-      {/* Buscador y Filtros Rápidos */}
-      <div className="flex flex-col md:flex-row items-center gap-4 justify-between bg-surface/40 p-4 rounded-xl border border-border/60">
-        {/* Input Buscador */}
-        <div className="relative w-full md:w-80">
-          <input
-            type="text"
-            placeholder="Buscar plato o ingrediente..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white border border-border/80 pl-10 pr-4 py-2.5 rounded-full text-sm text-text focus:outline-none focus:border-secondary transition-colors"
-          />
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brown/50" />
+    <section id="carta" className="py-24 bg-[#F3EEE4] relative overflow-hidden border-b border-primary/30">
+      <div className="absolute top-0 left-0 w-full h-4 bg-tile-pattern opacity-30"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="font-cursive text-3xl sm:text-4xl text-accent block leading-none mb-1">Platos elaborados con alma</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text font-serif mb-4">Nuestra Carta</h2>
+          <div className="w-16 h-[1px] bg-accent/40 mx-auto mb-6"></div>
+          <p className="text-brown text-xs sm:text-sm leading-relaxed font-sans">
+            Recetas tradicionales del Aljarafe elaboradas con el esmero de siempre, materias primas de calidad superior y un inconfundible toque casero.
+          </p>
         </div>
 
-        {/* Filtros de Alergias */}
-        <div className="flex items-center gap-3.5 w-full md:w-auto justify-center">
-          <label className="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold uppercase tracking-wider text-brown/80">
-            <input
-              type="checkbox"
-              checked={vegetarianFilter}
-              onChange={(e) => setVegetarianFilter(e.target.checked)}
-              className="accent-secondary w-4 h-4 rounded"
-            />
-            <span className="flex items-center gap-1 text-green-700">
-              <Leaf size={14} /> Veggie
-            </span>
-          </label>
-
-          <label className="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold uppercase tracking-wider text-brown/80">
-            <input
-              type="checkbox"
-              checked={celiacFilter}
-              onChange={(e) => setCeliacFilter(e.target.checked)}
-              className="accent-secondary w-4 h-4 rounded"
-            />
-            <span className="flex items-center gap-1 text-amber-700">
-              <ShieldAlert size={14} /> Sin Gluten
-            </span>
-          </label>
-        </div>
-      </div>
-
-      {/* Categorías (Pestañas de Selección) */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none justify-start md:justify-center border-b border-border/30">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setSelectedCategory(cat.id)}
-            className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
-              selectedCategory === cat.id
-                ? 'bg-secondary text-white shadow-sm'
-                : 'bg-surface/50 border border-border/40 text-brown hover:bg-border/40'
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Resultados de la Carta */}
-      {filteredItems.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-xl overflow-hidden border border-border/50 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full group"
-            >
-              {/* Imagen del Plato */}
-              {item.image && (
-                <div className="h-48 overflow-hidden relative shrink-0">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
+        {/* Tab selector */}
+        <div className="flex justify-start lg:justify-center items-center overflow-x-auto pb-3 mb-10 gap-1 border-b border-primary/30">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => { setActiveCategory(cat.id); setFilter('all'); }}
+                className={`flex items-center gap-2 px-5 py-3 transition-all whitespace-nowrap cursor-pointer relative font-sans text-xs sm:text-sm font-bold uppercase tracking-wider ${
+                  isActive ? 'text-accent' : 'text-brown/70 hover:text-text'
+                }`}
+              >
+                <span>{renderCategoryIcon(cat.id, `w-3.5 h-3.5 ${isActive ? 'text-accent' : 'text-brown/50'}`)}</span>
+                <span>{cat.label}</span>
+                {isActive && (
+                  <motion.div 
+                    layoutId="activeCategoryBorder"
+                    className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-accent"
                   />
-                  {/* Etiquetas populares */}
-                  {item.popular && (
-                    <div className="absolute top-3 left-3 bg-secondary text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 shadow-sm">
-                      <Flame size={10} /> Popular
-                    </div>
-                  )}
-                </div>
-              )}
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-              {/* Contenido */}
-              <div className="p-5 flex flex-col flex-grow justify-between">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-serif text-lg font-bold text-brown leading-tight">
-                      {item.name}
-                    </h3>
-                    <span className="text-secondary font-serif font-bold shrink-0">
-                      {item.price.toFixed(2)}€
-                    </span>
-                  </div>
-                  <p className="text-xs text-brown/70 leading-relaxed font-body">
-                    {item.description}
-                  </p>
-                </div>
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center items-center gap-1.5 mb-12">
+          {[
+            { id: 'all', label: 'Ver Todo', icon: null },
+            { id: 'popular', label: 'Especialidades', icon: <Sparkles className="w-3 h-3 text-accent" /> },
+            { id: 'vegetarian', label: 'Vegetariano', icon: <Leaf className="w-3 h-3 text-green-700" /> },
+            { id: 'celiac', label: 'Sin Gluten', icon: <CheckCircle className="w-3 h-3 text-accent" /> },
+          ].map((f) => {
+            const isSelected = filter === f.id;
+            return (
+              <button
+                key={f.id}
+                onClick={() => setFilter(f.id as any)}
+                className={`px-4 py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all border rounded-full cursor-pointer flex items-center gap-1.5 ${
+                  isSelected ? 'bg-[#3F3428] text-[#F3EEE4] border-[#3F3428]' : 'border-primary/60 text-brown hover:border-accent hover:text-accent'
+                }`}
+              >
+                {f.icon}
+                <span>{f.label}</span>
+              </button>
+            );
+          })}
+        </div>
 
-                {/* Sellos de Alérgenos */}
-                <div className="flex items-center gap-2 mt-4 pt-3.5 border-t border-border/30">
-                  {item.vegetarian && (
-                    <span className="text-[9px] font-bold uppercase tracking-wider bg-green-500/10 text-green-700 px-2 py-0.5 rounded flex items-center gap-0.5">
-                      <Leaf size={10} /> Vegetariano
-                    </span>
-                  )}
-                  {item.celiac && (
-                    <span className="text-[9px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-700 px-2 py-0.5 rounded flex items-center gap-0.5">
-                      <ShieldAlert size={10} /> Sin Gluten
-                    </span>
-                  )}
-                  {!item.vegetarian && !item.celiac && (
-                    <span className="text-[9px] font-medium uppercase tracking-wider text-brown/40">
-                      Receta Tradicional
-                    </span>
-                  )}
-                </div>
+        {/* Menu Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory + filter}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10"
+          >
+            {filteredItems.length === 0 ? (
+              <div className="col-span-full text-center py-16 border border-dashed border-primary/50 rounded-2xl">
+                <p className="text-brown/80 text-xs sm:text-sm">No se encontraron platos que coincidan con el filtro.</p>
               </div>
-            </div>
-          ))}
+            ) : (
+              filteredItems.map((item) => (
+                <div key={item.id} className="pb-6 border-b border-primary/40 flex flex-col justify-between hover:border-accent/40 group">
+                  <div>
+                    <div className="flex justify-between items-baseline gap-4 mb-2">
+                      <h3 className="text-base sm:text-lg font-bold text-text font-serif tracking-tight group-hover:text-accent transition-colors">
+                        {item.name}
+                      </h3>
+                      <div className="flex-1 border-b border-dashed border-primary/55 mx-2 relative top-[-4px]"></div>
+                      <span className="text-sm sm:text-base font-bold text-[#3F3428] whitespace-nowrap font-serif italic">
+                        {item.price.toFixed(2)} €
+                      </span>
+                    </div>
+                    <p className="text-brown/85 text-xs sm:text-sm leading-relaxed mb-3">{item.description}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 items-center">
+                    {item.popular && <span className="text-[9px] font-bold uppercase text-accent font-sans">• Especialidad</span>}
+                    {item.vegetarian && <span className="text-[9px] font-bold uppercase text-green-700 font-sans">• Vegetariano</span>}
+                    {item.celiac && <span className="text-[9px] font-bold uppercase text-amber-800 font-sans">• Sin Gluten</span>}
+                  </div>
+                </div>
+              ))
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="mt-20 text-center premium-card p-8 rounded-3xl border border-primary/80 max-w-2xl mx-auto bg-background/50">
+          <span className="font-cursive text-3xl text-accent block mb-1.5">Días de fiesta</span>
+          <h3 className="text-xl font-bold text-text font-serif mb-2">¿Planeando un acontecimiento especial?</h3>
+          <p className="text-brown text-xs sm:text-sm mb-5 max-w-md mx-auto">Diseñamos menús de celebración a medida para comuniones, bautizos y bodas.</p>
+          <a href="#eventos" className="group inline-flex items-center gap-2 px-6 py-3.5 border border-accent text-accent hover:bg-accent hover:text-white transition-all duration-300 font-sans font-bold text-[10px] uppercase tracking-widest rounded-full">
+            <span>Ver Menús de Evento</span> 
+            <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+          </a>
         </div>
-      ) : (
-        <div className="text-center py-16 bg-surface/35 border border-dashed border-border rounded-xl">
-          <p className="text-brown/60 text-sm font-medium">No se han encontrado platos con los filtros seleccionados.</p>
-        </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 }

@@ -1,501 +1,508 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
-  Utensils, 
-  Calendar, 
-  MapPin, 
-  Clock, 
-  Phone, 
-  Award, 
-  Heart, 
-  ChevronRight, 
-  Sparkles, 
-  Instagram, 
-  Facebook, 
-  Flame, 
-  Info,
-  Menu,
-  X,
-  Compass
+  MapPin, Phone, Clock, Menu, X, ArrowUp, ChevronRight, 
+  Sparkles, Heart, Utensils, Calendar, Star, ChevronDown,
+  Camera
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { MENU_ITEMS, REVIEWS } from './data';
-import MenuCatalog from './components/MenuCatalog';
-import ReviewsCarousel from './components/ReviewsCarousel';
+
 import InteractiveTable from './components/InteractiveTable';
+import MenuCatalog from './components/MenuCatalog';
 import EventCustomizer from './components/EventCustomizer';
+import ReviewsCarousel from './components/ReviewsCarousel';
 import ReservationForm from './components/ReservationForm';
 import ScrollMantelSection from './components/ScrollMantelSection';
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'restaurante' | 'carta' | 'mesa' | 'eventos'>('restaurante');
   const [scrolled, setScrolled] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const { scrollY } = useScroll();
+  const mantelY = useTransform(scrollY, [0, 1000], [0, 240]);
+  const mantelHeight = useTransform(scrollY, [0, 1000], [20, 120]);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      setShowScrollTop(window.scrollY > 600);
     };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const timer = setTimeout(() => setLoading(false), 1000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
+    };
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setMobileMenuOpen(false);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-background text-text selection:bg-secondary selection:text-white">
-      {/* HEADER PRINCIPAL */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-surface/90 backdrop-blur-md shadow-md py-3 border-b border-border/50' : 'bg-transparent py-5'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('inicio')}>
-            <span className="font-serif text-2xl font-bold tracking-tight text-brown">
-              Venta <span className="text-secondary font-cursive text-3xl">El Capricho</span>
-            </span>
-          </div>
-
-          {/* MENÚ DE ESCRITORIO */}
-          <nav className="hidden md:flex items-center gap-8">
-            <button 
-              onClick={() => scrollToSection('restaurante')} 
-              className="font-medium text-sm text-text/80 hover:text-secondary transition-colors"
-            >
-              Nuestra Casa
-            </button>
-            <button 
-              onClick={() => scrollToSection('carta')} 
-              className="font-medium text-sm text-text/80 hover:text-secondary transition-colors"
-            >
-              La Carta
-            </button>
-            <button 
-              onClick={() => scrollToSection('experiencia-mesa')} 
-              className="font-medium text-sm text-text/80 hover:text-secondary transition-colors"
-            >
-              Mesa Interactiva
-            </button>
-            <button 
-              onClick={() => scrollToSection('eventos')} 
-              className="font-medium text-sm text-text/80 hover:text-secondary transition-colors"
-            >
-              Celebraciones
-            </button>
-            <button 
-              onClick={() => scrollToSection('reservas')} 
-              className="bg-secondary text-white font-medium text-sm px-5 py-2 rounded-full hover:bg-hover transition-colors shadow-sm"
-            >
-              Reservar Mesa
-            </button>
-          </nav>
-
-          {/* BOTÓN MÓVIL */}
-          <div className="md:hidden flex items-center">
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-brown p-1 hover:text-secondary transition-colors"
-              aria-label="Abrir menú"
-            >
-              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* MENÚ MÓVIL DESPLEGABLE */}
+    <div className="min-h-screen bg-background text-text flex flex-col selection:bg-accent selection:text-white antialiased">
+      
+      {/* Loader */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {loading && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-surface pt-24 px-6 md:hidden flex flex-col gap-6 text-center shadow-inner"
+            id="loader" 
+            className="fixed inset-0 bg-background z-[100] flex flex-col items-center justify-center p-6"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
           >
-            <button 
-              onClick={() => scrollToSection('restaurante')} 
-              className="font-serif text-2xl py-2 text-brown border-b border-border/40"
-            >
-              Nuestra Casa
-            </button>
-            <button 
-              onClick={() => scrollToSection('carta')} 
-              className="font-serif text-2xl py-2 text-brown border-b border-border/40"
-            >
-              La Carta
-            </button>
-            <button 
-              onClick={() => scrollToSection('experiencia-mesa')} 
-              className="font-serif text-2xl py-2 text-brown border-b border-border/40"
-            >
-              Mesa Interactiva
-            </button>
-            <button 
-              onClick={() => scrollToSection('eventos')} 
-              className="font-serif text-2xl py-2 text-brown border-b border-border/40"
-            >
-              Celebraciones
-            </button>
-            <button 
-              onClick={() => scrollToSection('reservas')} 
-              className="bg-secondary text-white font-serif text-2xl py-3 rounded-full hover:bg-hover transition-colors shadow-md mt-4"
-            >
-              Reservar Mesa
-            </button>
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 rounded-full border-4 border-accent border-t-transparent animate-spin mx-auto flex items-center justify-center">
+                <span className="font-serif italic font-bold text-accent text-xs">VC</span>
+              </div>
+              <div>
+                <h2 className="font-serif font-bold text-xl text-text tracking-wide uppercase">Venta El Capricho</h2>
+                <p className="text-xs text-brown font-sans mt-1">Abriendo las puertas de la venta...</p>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* SECCIÓN HERO */}
-      <section id="inicio" className="relative min-h-screen flex items-center justify-center bg-surface overflow-hidden pt-16">
-        <div className="absolute inset-0 bg-tile-pattern opacity-15"></div>
-        
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background"></div>
-        
-        <div className="relative max-w-5xl mx-auto px-4 text-center z-10 flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-3 px-4 py-1.5 rounded-full border border-secondary/30 bg-surface/80 backdrop-blur-sm text-secondary text-xs font-semibold uppercase tracking-widest flex items-center gap-2 shadow-sm"
-          >
-            <Award size={14} className="animate-pulse" /> Sabor Tradicional y Auténtico Andaluz
-          </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-serif text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-brown leading-none"
-          >
-            Venta <br />
-            <span className="font-cursive text-secondary text-6xl sm:text-8xl md:text-9xl font-normal block -mt-2 sm:-mt-5">
-              El Capricho
-            </span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-6 font-body text-base sm:text-lg text-brown/85 max-w-xl leading-relaxed"
-          >
-            Donde las recetas de nuestros abuelos cordobeses cobran vida. Disfruta de la mejor cocina tradicional en un entorno único diseñado para recordar.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
-          >
-            <button 
-              onClick={() => scrollToSection('reservas')}
-              className="w-full sm:w-auto bg-secondary text-white font-medium px-8 py-3.5 rounded-full hover:bg-hover transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2 group cursor-pointer"
-            >
-              Reservar Mesa <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button 
-              onClick={() => scrollToSection('carta')}
-              className="w-full sm:w-auto bg-surface/75 backdrop-blur-sm border border-border text-brown font-medium px-8 py-3.5 rounded-full hover:bg-border/60 transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer"
-            >
-              Explorar la Carta
-            </button>
-          </motion.div>
-
-          {/* Indicador de scroll animado */}
-          <div 
-            onClick={() => scrollToSection('restaurante')}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 cursor-pointer select-none group"
-          >
-            <span className="text-[10px] text-brown/60 uppercase tracking-widest font-semibold group-hover:text-secondary transition-colors">Ver Más</span>
-            <div className="w-[18px] h-[30px] rounded-full border-2 border-brown/30 group-hover:border-secondary/50 flex justify-center p-1 transition-colors">
-              <div className="w-1.5 h-1.5 bg-secondary rounded-full animate-scroll-down"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECCIÓN NUESTRA CASA */}
-      <section id="restaurante" className="py-24 bg-background relative overflow-hidden">
+      {/* Header */}
+      <header 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          scrolled 
+            ? 'bg-background/95 backdrop-blur-md shadow-md py-3 border-b border-border' 
+            : 'bg-transparent py-5 border-b border-transparent'
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Un Rincón de Andalucía</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-brown">La Tradición Hecha Hogar</h2>
-            <div className="tile-divider mt-4">
-              <div className="h-[1px] w-12 bg-border"></div>
-              <div className="tile-star"></div>
-              <div className="h-[1px] w-12 bg-border"></div>
-            </div>
-            <p className="mt-4 text-brown/75 text-sm sm:text-base">
-              Nuestra venta es el resultado de décadas de cariño familiar por la gastronomía andaluza clásica. Un espacio rústico, con patios frescos y platos con alma.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 relative">
-              <div className="absolute -inset-2 rounded-2xl border-2 border-dashed border-secondary/30"></div>
-              <div className="relative rounded-xl overflow-hidden shadow-xl aspect-square">
-                <img 
-                  src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Patio andaluz tradicional de la Venta" 
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brown/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <p className="font-cursive text-3xl text-primary mb-1">Fundado en 1984</p>
-                  <p className="text-xs tracking-wider uppercase font-semibold">Más de 40 años compartiendo sabor</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7 flex flex-col gap-8">
-              <div className="premium-card p-6 sm:p-8 flex items-start gap-4">
-                <div className="p-3 bg-secondary/15 rounded-lg text-secondary shrink-0">
-                  <Flame size={24} />
-                </div>
-                <div>
-                  <h3 className="font-serif text-xl font-bold text-brown mb-1.5">Cocina a Fuego Lento</h3>
-                  <p className="text-sm text-brown/80 leading-relaxed">
-                    Nuestra especialidad son los guisos melosos y tradicionales como el Rabo de Toro estofado, cocinado durante más de seis horas con el cariño y el vino tinto D.O. de nuestra tierra.
-                  </p>
-                </div>
-              </div>
-
-              <div className="premium-card p-6 sm:p-8 flex items-start gap-4">
-                <div className="p-3 bg-secondary/15 rounded-lg text-secondary shrink-0">
-                  <Clock size={24} />
-                </div>
-                <div>
-                  <h3 className="font-serif text-xl font-bold text-brown mb-1.5">El Horario de Nuestra Cocina</h3>
-                  <p className="text-sm text-brown/80 leading-relaxed">
-                    Abrimos de Martes a Domingo para almuerzos de <strong className="text-secondary">13:00h a 16:30h</strong> y cenas de Viernes a Sábado de <strong className="text-secondary">20:30h a 23:30h</strong>. Los lunes permanecemos cerrados por descanso del personal.
-                  </p>
-                </div>
-              </div>
-
-              <div className="premium-card p-6 sm:p-8 flex items-start gap-4">
-                <div className="p-3 bg-secondary/15 rounded-lg text-secondary shrink-0">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <h3 className="font-serif text-xl font-bold text-brown mb-1.5">Ubicación Inmejorable</h3>
-                  <p className="text-sm text-brown/80 leading-relaxed">
-                    Estamos ubicados en un entorno rústico privilegiado a las afueras de Córdoba. Un lugar donde respirar aire puro, disfrutar del jardín andaluz y disponer de fácil aparcamiento gratuito para todos nuestros comensales.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECCIÓN SCROLL MANTELES DINÁMICOS */}
-      <section className="border-t border-b border-border/40 relative">
-        <ScrollMantelSection />
-      </section>
-
-      {/* SECCIÓN LA CARTA */}
-      <section id="carta" className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Para el Deleite</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-brown">Nuestra Sabrosa Carta</h2>
-            <div className="tile-divider mt-4">
-              <div className="h-[1px] w-12 bg-border"></div>
-              <div className="tile-star"></div>
-              <div className="h-[1px] w-12 bg-border"></div>
-            </div>
-            <p className="mt-4 text-brown/75 text-sm sm:text-base">
-              Una selección cuidada de ingredientes andaluces de máxima calidad, platos aptos para celíacos e irresistibles propuestas vegetarianas.
-            </p>
-          </div>
-
-          <MenuCatalog />
-        </div>
-      </section>
-
-      {/* SECCIÓN MESA INTERACTIVA */}
-      <section id="experiencia-mesa" className="py-24 bg-surface relative overflow-hidden">
-        <div className="absolute inset-0 bg-tile-pattern opacity-10"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Experiencia Digital</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-brown">Prueba Nuestra Mesa</h2>
-            <div className="tile-divider mt-4">
-              <div className="h-[1px] w-12 bg-border"></div>
-              <div className="tile-star"></div>
-              <div className="h-[1px] w-12 bg-border"></div>
-            </div>
-            <p className="mt-4 text-brown/75 text-sm sm:text-base">
-              Haz clic sobre los ingredientes dispuestos en nuestro elegante mantel de lino terracota andaluz para descubrir sus secretos, precios y combinaciones.
-            </p>
-          </div>
-
-          <InteractiveTable />
-        </div>
-      </section>
-
-      {/* SECCIÓN CELEBRACIONES Y EVENTOS */}
-      <section id="eventos" className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Días Inolvidables</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-brown">Tus Celebraciones a Medida</h2>
-            <div className="tile-divider mt-4">
-              <div className="h-[1px] w-12 bg-border"></div>
-              <div className="tile-star"></div>
-              <div className="h-[1px] w-12 bg-border"></div>
-            </div>
-            <p className="mt-4 text-brown/75 text-sm sm:text-base">
-              Bodas de plata, comuniones, bautizos o cenas de empresa. Diseña tu menú personalizado adaptando los platos a los gustos de tus invitados de forma instantánea.
-            </p>
-          </div>
-
-          <EventCustomizer />
-        </div>
-      </section>
-
-      {/* SECCIÓN OPINIONES */}
-      <section className="py-24 bg-surface relative overflow-hidden">
-        <div className="absolute inset-0 bg-tile-pattern opacity-10"></div>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Testimonios Reales</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-brown">La Voz de Nuestra Familia</h2>
-            <div className="tile-divider mt-4">
-              <div className="h-[1px] w-12 bg-border"></div>
-              <div className="tile-star"></div>
-              <div className="h-[1px] w-12 bg-border"></div>
-            </div>
-          </div>
-
-          <ReviewsCarousel />
-        </div>
-      </section>
-
-      {/* SECCIÓN FORMULARIO DE RESERVAS */}
-      <section id="reservas" className="py-24 bg-background relative">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <span className="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Reserva una Mesa</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-brown">Te Esperamos en la Mesa</h2>
-            <div className="tile-divider mt-4">
-              <div className="h-[1px] w-12 bg-border"></div>
-              <div className="tile-star"></div>
-              <div className="h-[1px] w-12 bg-border"></div>
-            </div>
-            <p className="mt-4 text-brown/75 text-sm sm:text-base">
-              Completa el formulario a continuación para confirmar tu mesa en Venta El Capricho al instante. Recibirás confirmación directa por WhatsApp o correo.
-            </p>
-          </div>
-
-          <ReservationForm />
-        </div>
-      </section>
-
-      {/* FOOTER PRINCIPAL */}
-      <footer className="bg-brown text-white/90 border-t border-border/20">
-        <div className="puntilla-border-top opacity-30"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-            <div className="flex flex-col gap-4">
-              <span className="font-serif text-2xl font-bold tracking-tight text-primary">
-                Venta <span className="font-cursive text-secondary text-3xl font-normal">El Capricho</span>
+          <div className="flex items-center justify-between">
+            <a href="#" className="flex flex-col group select-none">
+              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-[0.1em] text-[#3F3428] font-serif uppercase group-hover:text-[#B8826A] transition-colors">
+                VENTA EL CAPRICHO
               </span>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Recetas tradicionales elaboradas con pasión, en un entorno andaluz diseñado para compartir con las personas que más quieres.
-              </p>
-              <div className="flex items-center gap-3 mt-2">
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="p-2.5 bg-white/10 rounded-full hover:bg-secondary hover:text-white transition-colors" aria-label="Siguenos en Instagram">
-                  <Instagram size={18} />
+              <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6B5A45] font-sans">
+                Mairena del Aljarafe
+              </span>
+            </a>
+
+            <nav className="hidden lg:flex items-center gap-8">
+              <a href="#nosotros" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Nosotros</a>
+              <a href="#mesa-interactiva" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans flex items-center gap-1.5">La Mesa <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#B8826A] animate-pulse"></span></a>
+              <a href="#carta" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Carta</a>
+              <a href="#eventos" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Celebraciones</a>
+              <a href="#opiniones" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Opiniones</a>
+              <a href="#ubicacion" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Horario y Mapa</a>
+              <a 
+                href="#reservas" 
+                className="px-6 py-2.5 bg-[#B8826A] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#6B5A45] transition-colors rounded-none shadow-sm"
+              >
+                Reservar Mesa
+              </a>
+            </nav>
+
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-none hover:bg-primary/20 text-[#3F3428] transition-colors cursor-pointer border border-[#D6C3A5]"
+              aria-label="Abrir Menú"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="lg:hidden bg-[#F3EEE4] border-t border-[#D6C3A5] shadow-lg"
+            >
+              <div className="px-4 pt-3 pb-6 space-y-2">
+                <a href="#nosotros" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Nosotros</a>
+                <a href="#mesa-interactiva" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans flex items-center justify-between">
+                  <span>La Mesa Interactiva</span>
+                  <span className="bg-[#B8826A]/15 text-[#B8826A] text-[9px] font-bold px-2 py-0.5 tracking-wider">PROBAR MANTEL</span>
                 </a>
-                <a href="https://facebook.com" target="_blank" rel="noreferrer" className="p-2.5 bg-white/10 rounded-full hover:bg-secondary hover:text-white transition-colors" aria-label="Siguenos en Facebook">
-                  <Facebook size={18} />
+                <a href="#carta" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Carta y Especialidades</a>
+                <a href="#eventos" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Simulador de Celebraciones</a>
+                <a href="#opiniones" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Opiniones</a>
+                <a href="#ubicacion" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Horario y Ubicación</a>
+                <div className="pt-3 px-3">
+                  <a href="#reservas" onClick={() => setMobileMenuOpen(false)} className="w-full block py-3 bg-[#B8826A] text-white text-center font-bold text-xs uppercase tracking-widest font-sans rounded-none">Reservar Mesa en línea</a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden bg-background">
+        <div className="absolute inset-0 bg-tile-pattern opacity-10 pointer-events-none"></div>
+        
+        {/* Dynamic Hanging Tablecloth Decor */}
+        <motion.div 
+          style={{ y: mantelY }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
+          className="absolute top-[68px] left-0 w-full z-10 pointer-events-none select-none"
+        >
+          <motion.div style={{ height: mantelHeight }} className="bg-mantel w-full shadow-inner"></motion.div>
+          <div className="puntilla-border-bottom opacity-85"></div>
+        </motion.div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center space-y-10">
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#B8826A]/5 text-[#B8826A] text-[9px] font-bold tracking-[0.25em] uppercase font-sans">
+              <Sparkles className="w-3 h-3" /> Sabor a leña, alma de Aljarafe
+            </span>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-[#3F3428] tracking-tight font-serif select-all leading-tight">
+              Venta El Capricho
+            </h1>
+            <p className="font-cursive text-4xl sm:text-5xl md:text-6xl text-[#B8826A] leading-relaxed max-w-3xl mx-auto">
+              Donde cada celebración familiar se convierte en un recuerdo imborrable
+            </p>
+            <div className="tile-divider my-4">
+              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
+              <div className="tile-star bg-[#8FA3B1]/60"></div>
+              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
+            </div>
+            <p className="text-xs sm:text-sm md:text-base text-[#6B5A45]/90 max-w-2xl mx-auto font-sans leading-relaxed">
+              Descubre un rincón único en <span className="font-semibold text-[#3F3428]">Mairena del Aljarafe</span>. 
+              Gastronomía tradicional andaluza, comedores familiares, patio andaluz y el mejor servicio para comuniones, bautizos y bodas íntimas.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto pt-4">
+            <a href="#mesa-interactiva" className="group w-full sm:w-auto px-8 py-3.5 bg-[#B8826A] hover:bg-[#3F3428] text-[#F3EEE4] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center justify-center gap-2 rounded-full shadow-sm hover:shadow-md">
+              <span>El Mantel Interactivo</span> 
+              <Utensils className="w-3.5 h-3.5" />
+            </a>
+            <a href="#reservas" className="group w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#6B5A45] text-[#3F3428] hover:bg-[#3F3428] hover:text-[#F3EEE4] hover:border-[#3F3428] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center justify-center gap-2 rounded-full">
+              <span>Reservar Mesa</span> 
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-[#6B5A45] max-w-3xl mx-auto pt-8 border-t border-[#D6C3A5]">
+            <span className="flex items-center gap-2 font-sans tracking-wide">
+              <Phone className="w-4 h-4 text-[#B8826A]" /> <strong className="text-[#3F3428]">664 424 736</strong>
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D6C3A5] hidden sm:inline-block"></span>
+            <span className="flex items-center gap-2 font-sans tracking-wide">
+              <MapPin className="w-4 h-4 text-[#B8826A]" /> <span className="text-[#3F3428]">Calle Mandarina 2, Mairena del Aljarafe, Sevilla</span>
+            </span>
+          </div>
+
+          <div className="pt-6">
+            <a href="#nosotros" className="inline-flex flex-col items-center gap-2 text-[10px] uppercase font-bold tracking-widest text-[#6B5A45] hover:text-[#B8826A] transition-colors font-sans group">
+              <span>Bajar al restaurante</span>
+              <div className="w-5 h-9 rounded-full border-2 border-[#D6C3A5] flex justify-center p-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#B8826A] animate-scroll-down"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Nosotros Section */}
+      <section id="nosotros" className="py-24 bg-background relative overflow-hidden border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Visual Column Placeholder Cards */}
+            <div className="relative space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div className="aspect-[4/5] bg-surface border-2 border-dashed border-[#CFC2AE]/60 rounded-3xl flex flex-col items-center justify-center text-center p-6 group hover:border-accent/40 hover:bg-accent/5 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mb-4">
+                    <Camera className="w-5 h-5 text-[#B8826A]" />
+                  </div>
+                  <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wider">La Venta</h4>
+                  <p className="text-[10px] text-brown/65 mt-2 font-sans px-1 leading-normal">
+                    [Espacio para foto de la edificación]
+                  </p>
+                </div>
+
+                <div className="aspect-[4/5] bg-surface border-2 border-dashed border-[#CFC2AE]/60 rounded-3xl flex flex-col items-center justify-center text-center p-6 group hover:border-accent/40 hover:bg-accent/5 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mb-4">
+                    <Camera className="w-5 h-5 text-[#B8826A]" />
+                  </div>
+                  <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wider">La Terraza</h4>
+                  <p className="text-[10px] text-brown/65 mt-2 font-sans px-1 leading-normal">
+                    [Espacio para foto del patio exterior]
+                  </p>
+                </div>
+
+                <div className="aspect-[4/5] bg-surface border-2 border-dashed border-[#CFC2AE]/60 rounded-3xl flex flex-col items-center justify-center text-center p-6 group hover:border-accent/40 hover:bg-accent/5 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mb-4">
+                    <Camera className="w-5 h-5 text-[#B8826A]" />
+                  </div>
+                  <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wider">Celebraciones</h4>
+                  <p className="text-[10px] text-brown/65 mt-2 font-sans px-1 leading-normal">
+                    [Espacio para foto de eventos]
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Text Column */}
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <span className="font-cursive text-3xl sm:text-4xl text-accent block leading-none">
+                  Nuestra historia y raíces
+                </span>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text font-serif leading-tight">
+                  Tradición, Familia y Cocina con Alma
+                </h2>
+              </div>
+              <div className="w-16 h-[1px] bg-accent/40"></div>
+              
+              <div className="space-y-4 text-brown text-xs sm:text-sm leading-relaxed font-sans">
+                <p>
+                  En <strong className="text-text font-serif">Venta El Capricho</strong>, entendemos que la comida es mucho más que alimentación: es una oportunidad única de sentarse a compartir con quienes más amamos. Por eso, hemos diseñado un espacio amplio y acogedor para que te sientas como en tu propia casa.
+                </p>
+                <p>
+                  Nuestros salones y la espléndida terraza exterior son el escenario ideal para celebrar comuniones entrañables, bautizos alegres, comidas familiares de fin de semana o almuerzos de negocios. Ponemos todo nuestro empeño en que cada comensal marche con una sonrisa y el deseo de regresar.
+                </p>
+              </div>
+
+              <div className="border-l border-l-accent/65 pl-5 py-2.5 bg-accent/5">
+                <p className="font-cursive text-2xl text-accent leading-relaxed">
+                  "No nos limitamos a servir platos; nuestro compromiso es tejer momentos felices que duren para siempre."
+                </p>
+                <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-brown/70 font-sans block mt-1.5">— Equipo de Sala, Venta El Capricho</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
+                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Trato Familiar</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
+                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Fácil Aparcamiento</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
+                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Zona Infantil Amplia</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
+                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Terraza Climatizada</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Kinetic Scrolling Tablecloth Section */}
+      <ScrollMantelSection />
+
+      {/* Tapas Interactive Table Section */}
+      <InteractiveTable />
+
+      {/* Catalog Menu */}
+      <MenuCatalog />
+
+      {/* Simulator Event Customizer */}
+      <EventCustomizer />
+
+      {/* Reviews Section */}
+      <ReviewsCarousel />
+
+      {/* Booking Form Section */}
+      <ReservationForm />
+
+      {/* Map Opening Hours Section */}
+      <section id="ubicacion" className="py-24 bg-background relative overflow-hidden border-t border-border">
+        <div className="absolute top-0 left-0 w-full h-4 bg-tile-pattern opacity-20"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+            <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
+              <div className="space-y-4">
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-accent bg-accent/10 px-3 py-1.5 rounded-none font-sans inline-block">
+                  ¿Dónde Estamos?
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text font-serif">
+                  Ven a Disfrutar
+                </h2>
+                <p className="text-sm text-brown font-sans leading-relaxed">
+                  Nos encontramos en una zona tranquila y muy accesible de Mairena del Aljarafe, con excelentes conexiones para venir desde Sevilla o cualquier pueblo de la comarca.
+                </p>
+              </div>
+
+              <div className="space-y-4 font-sans text-sm">
+                <div className="flex items-start gap-4 bg-surface p-5 border border-border">
+                  <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-bold text-text text-xs uppercase tracking-widest font-sans">Dirección Postal</h4>
+                    <p className="text-brown text-xs mt-1">Calle Mandarina 2, 41927 Mairena del Aljarafe, Sevilla</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 bg-surface p-5 border border-border">
+                  <Phone className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-bold text-text text-xs uppercase tracking-widest font-sans">Reservas Telefónicas</h4>
+                    <p className="text-accent text-sm font-bold mt-1">
+                      <a href="tel:664424736" className="hover:underline tracking-wider">664 424 736</a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 bg-surface p-5 border border-border">
+                  <Clock className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <div className="w-full">
+                    <h4 className="font-bold text-text text-xs uppercase tracking-widest font-sans mb-3">Horarios de Apertura</h4>
+                    <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs text-brown">
+                      <span className="font-medium text-text">Miércoles y Jueves:</span>
+                      <span className="text-right">13:00 - 17:00 h</span>
+                      <span className="font-medium text-text">Viernes:</span>
+                      <span className="text-right">13:00 - 17:00 / 20:00 - 00:00 h</span>
+                      <span className="font-medium text-text">Sábados:</span>
+                      <span className="text-right">13:00 - 00:00 h</span>
+                      <span className="font-medium text-text">Domingos:</span>
+                      <span className="text-right">13:00 - 18:00 h</span>
+                      <span className="font-bold text-accent pt-1">Lunes y Martes:</span>
+                      <span className="text-right text-accent font-bold pt-1">Cerrado</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <a href="https://maps.google.com/?q=Calle+Mandarina+2+41927+Mairena+del+Aljarafe+Sevilla" target="_blank" rel="noopener noreferrer" className="px-6 py-3.5 bg-accent text-white font-bold text-xs uppercase tracking-widest rounded-none transition-all font-sans text-center shadow-sm flex items-center justify-center gap-2">
+                  <MapPin className="w-4 h-4" /> Cómo llegar con GPS
+                </a>
+                <a href="tel:664424736" className="px-6 py-3.5 bg-transparent text-text border-2 border-brown font-bold text-xs uppercase tracking-widest rounded-none transition-all font-sans text-center flex items-center justify-center gap-2">
+                  <Phone className="w-4 h-4 text-accent" /> Llamar Directamente
                 </a>
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <h4 className="font-serif text-lg font-bold text-primary">Nuestros Horarios</h4>
-              <ul className="text-sm text-white/75 flex flex-col gap-2.5">
-                <li className="flex justify-between border-b border-white/10 pb-1.5">
-                  <span>Martes a Jueves:</span>
-                  <span>13:00h - 16:30h</span>
-                </li>
-                <li className="flex justify-between border-b border-white/10 pb-1.5">
-                  <span>Viernes y Sábado:</span>
-                  <span>13:00h - 23:30h</span>
-                </li>
-                <li className="flex justify-between border-b border-white/10 pb-1.5">
-                  <span>Domingos:</span>
-                  <span>13:00h - 16:30h</span>
-                </li>
-                <li className="flex justify-between pb-1 text-secondary font-semibold">
-                  <span>Lunes:</span>
-                  <span>Cerrado por Descanso</span>
-                </li>
+            {/* Custom Interactive Vector Map */}
+            <div className="lg:col-span-7 flex flex-col justify-between">
+              <div className="p-6 border border-border flex flex-col justify-between h-full bg-surface relative overflow-hidden min-h-[400px]">
+                <div className="absolute top-0 left-0 w-full h-2 bg-tile-pattern opacity-20 z-15"></div>
+                
+                <div className="relative w-full h-full bg-background border border-border overflow-hidden flex flex-col items-center justify-center p-6 text-center">
+                  <div className="absolute inset-0 opacity-15 pointer-events-none">
+                    <div className="absolute top-0 left-1/3 w-[2px] h-full bg-accent/60"></div>
+                    <div className="absolute top-0 left-2/3 w-[3px] h-full bg-accent/60"></div>
+                    <div className="absolute top-1/4 left-0 w-full h-[2px] bg-accent/60"></div>
+                    <div className="absolute top-3/4 left-0 w-full h-[3px] bg-accent/60"></div>
+                    <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-accent/60 rotate-12"></div>
+                  </div>
+
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-dashed border-accent/20 bg-background/90 z-0"></div>
+
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="relative">
+                      <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center animate-ripple absolute -top-1 -left-1"></div>
+                      <div className="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-md relative z-10">
+                        <MapPin className="w-5 h-5 animate-bounce" />
+                      </div>
+                    </div>
+                    <div className="mt-4 bg-surface border border-border p-4 rounded-none max-w-xs shadow-md space-y-1 relative z-10">
+                      <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wide">Venta El Capricho</h4>
+                      <p className="text-[10px] text-brown font-sans leading-tight">Calle Mandarina 2 (Aparcamiento fácil)</p>
+                      <span className="inline-block text-[9px] font-bold text-accent uppercase font-sans mt-1.5 tracking-wider">Mairena del Aljarafe, Sevilla</span>
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-4 right-4 z-20">
+                    <a href="https://maps.google.com/?q=Calle+Mandarina+2+41927+Mairena+del+Aljarafe+Sevilla" target="_blank" rel="noopener noreferrer" className="bg-brown text-white font-sans font-bold text-xs uppercase tracking-widest px-4 py-2.5 rounded-none shadow-md transition-all flex items-center gap-1.5">
+                      Abrir Mapa Real <ChevronRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-text text-[#F5F0E8] py-16 border-t-4 border-t-accent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 items-start">
+            <div className="lg:col-span-5 space-y-4">
+              <h3 className="font-serif text-2xl font-bold tracking-tight text-primary">VENTA EL CAPRICHO</h3>
+              <p className="text-xs uppercase tracking-widest text-accent font-sans font-bold">Mairena del Aljarafe, Sevilla</p>
+              <p className="text-xs text-background/80 leading-relaxed max-w-sm font-sans">
+                Venta tradicional y salones de celebraciones idóneos para bautizos, comuniones y comidas familiares. Conservamos con orgullo las mejores recetas de toda la vida y la calidez del Aljarafe.
+              </p>
+            </div>
+
+            <div className="lg:col-span-2 space-y-3">
+              <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Enlaces</h4>
+              <ul className="space-y-2 text-xs font-sans text-background/75">
+                <li><a href="#nosotros" className="hover:text-accent">Nosotros</a></li>
+                <li><a href="#mesa-interactiva" className="hover:text-accent">La Mesa Interactiva</a></li>
+                <li><a href="#carta" className="hover:text-accent">Nuestra Carta</a></li>
+                <li><a href="#eventos" className="hover:text-accent">Simulador de Eventos</a></li>
+                <li><a href="#reservas" className="hover:text-accent">Reservar Mesa</a></li>
               </ul>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <h4 className="font-serif text-lg font-bold text-primary">Atención al Cliente</h4>
-              <ul className="text-sm text-white/75 flex flex-col gap-3">
-                <li className="flex items-center gap-2">
-                  <Phone size={16} className="text-secondary" />
-                  <a href="tel:+34957123456" className="hover:text-primary transition-colors">+34 957 123 456</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Clock size={16} className="text-secondary" />
-                  <span>Soporte: Martes a Domingo</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <MapPin size={16} className="text-secondary shrink-0 mt-0.5" />
-                  <span className="leading-tight">Ctra. de la Sierra, Km. 4.2,<br />14014 Córdoba, España</span>
-                </li>
+            <div className="lg:col-span-2 space-y-3">
+              <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Contacto</h4>
+              <ul className="space-y-2 text-xs font-sans text-background/75">
+                <li><a href="tel:664424736" className="hover:text-accent">664 424 736</a></li>
+                <li><span>Calle Mandarina 2</span></li>
+                <li><span>41927 Mairena del Aljarafe</span></li>
+                <li><span>Sevilla, España</span></li>
               </ul>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <h4 className="font-serif text-lg font-bold text-primary">Accesos Rápidos</h4>
-              <ul className="text-sm text-white/75 flex flex-col gap-2.5">
-                <li><button onClick={() => scrollToSection('restaurante')} className="hover:text-primary transition-colors text-left">Nuestra Casa</button></li>
-                <li><button onClick={() => scrollToSection('carta')} className="hover:text-primary transition-colors text-left">Nuestra Carta</button></li>
-                <li><button onClick={() => scrollToSection('experiencia-mesa')} className="hover:text-primary transition-colors text-left">Mesa Interactiva</button></li>
-                <li><button onClick={() => scrollToSection('eventos')} className="hover:text-primary transition-colors text-left">Celebraciones Especiales</button></li>
-                <li><button onClick={() => scrollToSection('reservas')} className="hover:text-primary transition-colors text-left text-secondary font-semibold">Reservas Online</button></li>
+            <div className="lg:col-span-3 space-y-3">
+              <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Horario de Cocina</h4>
+              <ul className="space-y-1.5 text-xs font-sans text-background/75">
+                <li><span className="font-semibold text-primary">Mié - Jue:</span> 13:00 - 17:00 h</li>
+                <li><span className="font-semibold text-primary">Viernes:</span> 13:00 - 17:00 / 20:00 - 00:00 h</li>
+                <li><span className="font-semibold text-primary">Sábado:</span> 13:00 - 00:00 h</li>
+                <li><span className="font-semibold text-primary">Domingo:</span> 13:00 - 18:00 h</li>
+                <li className="text-accent font-semibold pt-1">Lunes y Martes cerrado por descanso</li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-white/50 gap-4">
+          <div className="border-t border-background/20 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-background/60 font-sans gap-4">
             <p>&copy; {new Date().getFullYear()} Venta El Capricho. Todos los derechos reservados.</p>
-            <div className="flex gap-6">
-              <a href="#inicio" className="hover:text-primary transition-colors">Aviso Legal</a>
-              <a href="#inicio" className="hover:text-primary transition-colors">Política de Privacidad</a>
-              <a href="#inicio" className="hover:text-primary transition-colors">Política de Cookies</a>
+            <div className="flex gap-4">
+              <span className="hover:text-accent cursor-pointer">Aviso Legal</span>
+              <span>·</span>
+              <span className="hover:text-accent cursor-pointer">Política de Privacidad</span>
+              <span>·</span>
+              <span className="hover:text-accent cursor-pointer">Política de Cookies</span>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Back to Top */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-40 p-3 rounded-xl bg-accent text-white shadow-lg hover:bg-brown transition-all duration-300 cursor-pointer"
+            aria-label="Volver arriba"
+          >
+            <ArrowUp className="w-5 h-5 stroke-[2.5]" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

@@ -1,313 +1,331 @@
 import { MenuItem, Review, InteractiveTableDish, EventPackage } from './types';
 
-export const MENU_ITEMS: MenuItem[] = [
+export const menuItems: MenuItem[] = [
+  // Entrantes
   {
     id: 'e1',
-    name: 'Croquetas Caseras de Jamón Ibérico',
-    description: 'Suaves y cremosas croquetas elaboradas con jamón ibérico de bellota de la dehesa cordobesa, rebozo crujiente.',
-    price: 12.50,
+    name: 'Croquetas Caseras del Capricho',
+    description: 'Selección de croquetas cremosas de jamón ibérico de bellota y puchero andaluz',
+    price: 9.50,
     category: 'entrantes',
-    popular: true,
-    image: 'https://images.unsplash.com/photo-1562607356-6a6321decd6f?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'e2',
-    name: 'Salmorejo Cordobés Tradicional',
-    description: 'Crema fría emulsionada de tomates maduros, pan artesano, AOVE picual, acompañada de jamón ibérico picadito y huevo cocido.',
-    price: 8.90,
+    name: 'Jamón Ibérico de Bellota',
+    description: 'Cortado a cuchillo al momento, acompañado de picos artesanos de Utrera',
+    price: 19.50,
     category: 'entrantes',
-    vegetarian: false,
-    celiac: false,
-    image: 'https://images.unsplash.com/photo-1594756202469-9ff9799b2e4e?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'e3',
-    name: 'Berenjenas Fritas con Miel de Caña',
-    description: 'Bastoncitos de berenjena en tempura andaluza, crujientes por fuera y tiernas por dentro, regadas con miel de caña de Frigiliana.',
-    price: 10.50,
-    category: 'entrantes',
-    vegetarian: true,
-    popular: true,
-    image: 'https://images.unsplash.com/photo-1624462966581-bc6d768cbce5?auto=format&fit=crop&q=80&w=600'
+    name: 'Salmorejo Cordobés Tradicional',
+    description: 'Emulsionado con aceite de oliva virgen extra de Estepa, huevo de corral y virutas de jamón',
+    price: 8.00,
+    category: 'entrantes'
   },
   {
     id: 'e4',
-    name: 'Tabla de Quesos Andaluces',
-    description: 'Selección de quesos artesanos de cabra payoya y oveja de la Sierra de Grazalema, servidos con nueces y mermelada artesanal.',
-    price: 16.00,
+    name: 'Revuelto de Espárragos Trigueros y Setas',
+    description: 'Salteado jugoso con huevos camperos de Mairena y las mejores setas de temporada',
+    price: 10.50,
     category: 'entrantes',
-    vegetarian: true,
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?auto=format&fit=crop&q=80&w=600'
+    vegetarian: true
   },
   {
+    id: 'e5',
+    name: 'Queso Payoyo Curado',
+    description: 'Queso artesanal de la Sierra de Grazalema madurado en manteca ibérica',
+    price: 12.00,
+    category: 'entrantes',
+    celiac: true
+  },
+
+  // Carnes
+  {
     id: 'c1',
-    name: 'Rabo de Toro a la Cordobesa',
-    description: 'Guiso tradicional de rabo de toro meloso a fuego lento en reducción de vino tinto de la tierra, verduras de temporada y patatas fritas caseras.',
-    price: 19.50,
+    name: 'Solomillo Ibérico al Whisky',
+    description: 'La gran especialidad de la casa, cocinado con ajos dorados, manzanilla de Sanlúcar y toque secreto',
+    price: 17.50,
     category: 'carnes',
-    popular: true,
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'c2',
-    name: 'Paletilla de Cordero Lechal',
-    description: 'Asada lentamente a baja temperatura en su propio jugo con toques de romero, tomillo y guarnición de patatas panaderas.',
-    price: 24.50,
-    category: 'carnes',
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&q=80&w=600'
+    name: 'Carrillada de Cerdo Ibérico en Salsa',
+    description: 'Melosa carrillada cocinada a fuego lento en reducción de vino tinto del Aljarafe y patatas panaderas',
+    price: 16.00,
+    category: 'carnes'
   },
   {
     id: 'c3',
-    name: 'Pluma Ibérica de Bellota a la Parrilla',
-    description: 'Corte noble de cerdo ibérico braseado al carbón de encina, acompañado de escamas de sal maldon y pimientos del padrón.',
-    price: 21.00,
-    category: 'carnes',
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1602490029392-63af0d221472?auto=format&fit=crop&q=80&w=600'
+    name: 'Secreto Ibérico a la Brasa',
+    description: 'Corte selecto asado con sal gorda marina y guarnición de pimientos fritos del Aljarafe',
+    price: 18.00,
+    category: 'carnes'
   },
   {
+    id: 'c4',
+    name: 'Rabo de Toro Estofado',
+    description: 'Receta tradicional andaluza con una salsa rica y melosa que se deshace en el paladar',
+    price: 19.50,
+    category: 'carnes',
+    popular: true
+  },
+
+  // Pescados
+  {
     id: 'p1',
-    name: 'Lomo de Bacalao Confitado',
-    description: 'Sobre cama de pisto andaluz tradicional, gratinado con un suave alioli casero de ajo asado.',
+    name: 'Bacalao Gratinado al Alioli de Miel',
+    description: 'Lomo de bacalao premium sobre cama de patatas panaderas y un toque suave y dulce de alioli',
     price: 18.50,
     category: 'pescados',
-    popular: true,
-    image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'p2',
-    name: 'Pata de Pulpo a la Brasa con Parmentier',
-    description: 'Pata de pulpo gallego braseada, servida sobre parmentier de patata trufada y aceite de pimentón de la Vera.',
-    price: 22.00,
-    category: 'pescados',
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=600'
+    name: 'Merluza Fresa de la Bahía',
+    description: 'A la plancha con ajillo crujiente, guarnición de calabacín y espárragos trigueros asados',
+    price: 16.50,
+    category: 'pescados'
   },
   {
+    id: 'p3',
+    name: 'Chipirones a la Plancha con Salsa Verde',
+    description: 'Frescos del mercado, marcados a fuego vivo con emulsión de perejil y ajo tierno',
+    price: 15.00,
+    category: 'pescados',
+    celiac: true
+  },
+
+  // Arroces
+  {
     id: 'a1',
-    name: 'Arroz Meloso de Campo con Setas',
-    description: 'Arroz bomba cocinado a fuego lento con caldo casero de verduras, boletus edulis, champiñones silvestres y trigueros de la vega.',
-    price: 16.50,
+    name: 'Arroz Meloso Capricho',
+    description: 'Arroz meloso con pluma ibérica, boletus edulis y aromas de romero silvestre',
+    price: 16.00,
     category: 'arroces',
-    vegetarian: true,
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'a2',
-    name: 'Arroz Ibérico con Secreto y Alcachofas',
-    description: 'Arroz seco en paella con finas lascas de secreto ibérico de bellota y alcachofas frescas salteadas al vino Montilla-Moriles.',
-    price: 18.00,
-    category: 'arroces',
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1534080391025-a77b068f510d?auto=format&fit=crop&q=80&w=600'
+    name: 'Arroz con Bogavante Nacional',
+    description: 'Arroz caldoso e intenso cocinado al momento con bogavante entero y sofrito tradicional',
+    price: 24.00,
+    category: 'arroces'
   },
   {
+    id: 'a3',
+    name: 'Paella Mixta Sevillana',
+    description: 'Arroz seco con pollo de corral, judías verdes, mejillones y gambas frescas',
+    price: 16.50,
+    category: 'arroces'
+  },
+
+  // Postres
+  {
     id: 'po1',
-    name: 'Pastel de Queso Artesanal',
-    description: 'Tarta de queso horneada al estilo San Sebastián con queso de cabra payoya, corazón cremoso y base de galleta crujiente.',
+    name: 'Tarta de Queso "El Capricho"',
+    description: 'Tarta horneada súper cremosa con base de galleta y sirope artesanal de frutos del bosque',
     price: 6.50,
     category: 'postres',
-    vegetarian: true,
-    popular: true,
-    image: 'https://images.unsplash.com/photo-1508737027454-e6454ef45afd?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'po2',
-    name: 'Flan de Huevo de Campo al Caramelo',
-    description: 'Receta tradicional de la abuela, elaborado con huevos camperos frescos y leche entera infusionada con canela y limón.',
-    price: 5.00,
+    name: 'Torrijas Caramelizadas con Canela',
+    description: 'Receta centenaria, empapadas en leche con cáscara de naranja de Mairena y canela de Ceilán',
+    price: 7.00,
     category: 'postres',
-    vegetarian: true,
-    celiac: true,
-    image: 'https://images.unsplash.com/photo-1511018556340-d16986a1c194?auto=format&fit=crop&q=80&w=600'
+    popular: true
   },
   {
     id: 'po3',
-    name: 'Piononos de Santa Fe con Helado',
-    description: 'Bizcocho humedecido en jarabe dulce, relleno de crema tostada y servido con helado artesanal de vainilla bourbon.',
-    price: 6.00,
-    category: 'postres',
-    vegetarian: true,
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=600'
+    name: 'Flan Casero de Huevo y Caramelo',
+    description: 'Elaborado con huevos de corral, leche entera fresca y caramelo tostado a mano',
+    price: 5.50,
+    category: 'postres'
+  },
+
+  // Bebidas
+  {
+    id: 'b1',
+    name: 'Manzanilla de Sanlúcar Muy Fría',
+    description: 'Copa de vino fino, perfecta para maridar con jamón o croquetas',
+    price: 3.00,
+    category: 'bebidas'
+  },
+  {
+    id: 'b2',
+    name: 'Cerveza Cruzcampo de Barril',
+    description: 'Tirada de manera tradicional, con su espuma perfecta y súper helada',
+    price: 2.60,
+    category: 'bebidas'
+  },
+  {
+    id: 'b3',
+    name: 'Vino Tinto Rioja Crianza (Copa)',
+    description: 'Vino tinto elegante, ideal para acompañar nuestras carnes ibéricas',
+    price: 3.50,
+    category: 'bebidas'
   }
 ];
 
-export const REVIEWS: Review[] = [
+export const reviews: Review[] = [
   {
     id: 'r1',
-    name: 'Manuel García',
+    name: 'Lola Ramos',
     stars: 5,
-    comment: 'Un sitio espectacular para comer. El rabo de toro es de los mejores que he probado en mi vida, súper tierno y sabroso. La atención del servicio fue magnífica, muy atentos y profesionales. ¡Volveremos seguro!',
-    date: 'Hace 1 semana',
-    source: 'Google Reviews'
+    comment: 'Celebré la comunión de mi hija el mes pasado y fue un acierto total. La comida estuvo espectacular, los espacios son amplios e idóneos para que los niños jueguen, y el servicio de mesa fue súper atento y profesional. ¡Totalmente recomendado!',
+    date: 'Mayo 2026',
+    source: 'Reseña de Google'
   },
   {
     id: 'r2',
-    name: 'Carmen Martínez',
-    stars: 5,
-    comment: 'Celebramos aquí el bautizo de mi hijo y todo salió de 10. La comida excelente, el personal muy flexible y simpático, y la personalización del evento nos facilitó mucho la organización. Los invitados quedaron encantados.',
-    date: 'Hace 2 semanas',
-    source: 'Facebook'
+    name: 'Jorge Rodríguez',
+    stars: 4,
+    comment: 'Un restaurante excelente para disfrutar en familia de la gastronomía de toda la vida. La terraza exterior es súper agradable para la sobremesa con un café o una copa de manzanilla. Las croquetas y el solomillo al whisky son obligatorios.',
+    date: 'Junio 2026',
+    source: 'Reseña de Google'
   },
   {
     id: 'r3',
-    name: 'Jesús Ortiz',
-    stars: 4,
-    comment: 'Comida tradicional andaluza con una calidad de producto excelente. Las berenjenas con miel de caña crujientes y deliciosas. El sitio es muy acogedor. Recomiendo reservar antes de venir porque suele llenarse.',
-    date: 'Hace 3 semanas',
-    source: 'TripAdvisor'
+    name: 'María Luisa Sánchez',
+    stars: 5,
+    comment: 'La calidez andaluza en estado puro. Te atienden con una sonrisa desde el primer segundo. Celebramos el bautizo de mi nieto y todos los invitados quedaron encantados tanto con el menú como con la belleza tradicional de la venta.',
+    date: 'Abril 2026',
+    source: 'Reseña de Google'
   },
   {
     id: 'r4',
-    name: 'Elena Rodríguez',
+    name: 'Antonio J. Benítez',
     stars: 5,
-    comment: 'La tarta de queso payoyo es de otro planeta. El pulpo a la brasa exquisito y la atención de Paco inmejorable. Un gran acierto de restaurante.',
-    date: 'Hace 1 mes',
-    source: 'Google Reviews'
+    comment: 'Excelente comida y precio inmejorable en la zona del Aljarafe. Probamos el arroz de la casa y el rabo de toro, ambos platos cocinados con el cariño que ya casi no se encuentra en las grandes ciudades. Volveremos sin duda.',
+    date: 'Marzo 2026',
+    source: 'Reseña de Google'
   }
 ];
 
-export const INTERACTIVE_DISHES: InteractiveTableDish[] = [
+export const interactiveDishes: InteractiveTableDish[] = [
   {
-    id: 'tab1',
-    name: 'Jamón Ibérico de Bellota',
-    description: 'Finas lonchas de jamón de bellota 100% cortadas a cuchillo al momento, servidas con picos artesanos.',
-    price: 24.00,
-    category: 'Entrantes',
-    icon: '🥓',
+    id: 'it1',
+    name: 'Croquetas Caseras',
+    description: 'Doradas por fuera, increíblemente fundentes por dentro con un toque generoso de jamón ibérico de bellota.',
+    price: 9.50,
+    category: 'Entrante',
+    icon: 'croquette',
     x: 20,
-    y: 25
+    y: 35
   },
   {
-    id: 'tab2',
-    name: 'Salmorejo Cordobés',
-    description: 'Crema fría andaluza untuosa con huevo de campo, taquitos de jamón ibérico y un hilo de aceite picual.',
-    price: 8.90,
-    category: 'Entrantes',
-    icon: '🥣',
-    x: 80,
-    y: 30
-  },
-  {
-    id: 'tab3',
-    name: 'Pluma Ibérica Braseada',
-    description: 'Jugosa pieza ibérica asada al carbón con guarnición de pimientos asados.',
-    price: 21.00,
+    id: 'it2',
+    name: 'Solomillo al Whisky',
+    description: 'Corte tierno asado a la perfección, bañado en su icónica salsa de ajos confitados, limón y manzanilla.',
+    price: 17.50,
     category: 'Carnes',
-    icon: '🥩',
+    icon: 'steak',
     x: 50,
-    y: 75
+    y: 15
   },
   {
-    id: 'tab4',
-    name: 'Copa de Vino Tinto D.O.',
-    description: 'Selección de vino tinto con crianza perfecto para maridar las carnes ibéricas de la zona.',
-    price: 3.50,
+    id: 'it3',
+    name: 'Torrija Caramelizada',
+    description: 'Postre cremoso de leche aromatizada con canela y cáscara de naranja, caramelizada al momento con azúcar quemado.',
+    price: 7.00,
+    category: 'Postre',
+    icon: 'toast',
+    x: 80,
+    y: 35
+  },
+  {
+    id: 'it4',
+    name: 'Copa de Manzanilla',
+    description: 'Fría, limpia y punzante. El maridaje perfecto para abrir el apetito e iniciar el almuerzo andaluz.',
+    price: 3.00,
     category: 'Bebidas',
-    icon: '🍷',
-    x: 48,
-    y: 20
+    icon: 'wine',
+    x: 35,
+    y: 65
   },
   {
-    id: 'tab5',
-    name: 'Berenjenas Fritas',
-    description: 'Crujientes palitos de berenjena con un toque de miel de caña andaluza pura.',
-    price: 10.50,
-    category: 'Entrantes',
-    icon: '🍆',
-    x: 18,
-    y: 70
-  },
-  {
-    id: 'tab6',
-    name: 'Tarta de Queso Payoyo',
-    description: 'Suave tarta horneada con el carácter sutil del queso artesano payoyo y corazón fluido.',
-    price: 6.50,
-    category: 'Postres',
-    icon: '🍰',
-    x: 82,
-    y: 72
+    id: 'it5',
+    name: 'Jamón Ibérico de Bellota',
+    description: 'El orgullo de nuestra gastronomía, cortado al momento con el veteado perfecto que se deshace en boca.',
+    price: 19.50,
+    category: 'Entrante',
+    icon: 'ham',
+    x: 65,
+    y: 65
   }
 ];
 
-export const EVENT_PACKAGES: EventPackage[] = [
+export const eventPackages: EventPackage[] = [
   {
-    id: 'pkg1',
-    name: 'Menú Bodas de Oro',
-    description: 'Un banquete señorial diseñado para grandes reencuentros familiares y aniversarios inolvidables.',
-    pricePerPerson: 55,
+    id: 'ep1',
+    name: 'Menú Tradicional Aljarafe',
+    description: 'Perfecto para bautizos y reuniones familiares íntimas. Gastronomía típica andaluza en un formato muy acogedor.',
+    pricePerPerson: 38,
     starters: [
-      'Surtido Ibérico de Bellota con Queso Payoyo curado',
-      'Salmorejo con virutas de jamón y huevo campero',
-      'Berenjenas fritas crujientes con miel de caña de Frigiliana'
+      'Surtido de Ibéricos (Jamón, Caña de Lomo y Queso)',
+      'Croquetas Caseras del Capricho',
+      'Salmorejo Sevillano'
     ],
     mains: [
-      'Rabo de Toro guisado a fuego lento al vino tinto',
-      'Bacalao confitado sobre pisto andaluz tradicional'
+      'Carrillada Ibérica en salsa de vino tinto con panaderas',
+      'Lomo de Bacalao gratinado con alioli'
     ],
     desserts: [
-      'Surtido de Piononos artesanos y Pastel de Queso payoyo',
-      'Cava de bienvenida para el brindis de honor'
+      'Flan casero de huevo con nata',
+      'Café o Infusión'
     ],
     drinks: [
-      'Cerveza Alhambra Especial',
-      'Vino tinto de la casa D.O.',
-      'Refrescos y agua mineral sin límite'
+      'Cerveza Cruzcampo, Vino de la Casa, Refrescos y Agua'
     ],
     iconName: 'Sparkles'
   },
   {
-    id: 'pkg2',
-    name: 'Menú Bautizo El Capricho',
-    description: 'Frescura y variedad en una selección perfecta para compartir en celebraciones infantiles e informales.',
-    pricePerPerson: 42,
+    id: 'ep2',
+    name: 'Menú Celebración Premium',
+    description: 'Nuestra propuesta estrella para Comuniones y grandes acontecimientos. Ofrece variedad, elegancia y un éxito garantizado.',
+    pricePerPerson: 52,
     starters: [
-      'Croquetas caseras cremosas de jamón ibérico',
-      'Tabla de quesos artesanos de la Sierra de Grazalema',
-      'Ensalada templada de perdiz escabechada y frutos secos'
+      'Jamón Ibérico de Bellota y Queso de Oveja Grazalema',
+      'Revueltos camperos de espárragos trigueros y jamón',
+      'Gambas frescas de Huelva cocidas'
     ],
     mains: [
-      'Pluma ibérica braseada con patatitas panaderas',
-      'Lomito de lubina a la espalda con ajos dorados'
+      'Solomillo Ibérico al Whisky con patatas bastón',
+      'Merluza de la Bahía asada al horno con ajitos'
     ],
     desserts: [
-      'Tarta de San Marcos tradicional con helado de vainilla',
-      'Café e infusiones selectas'
+      'Tarta de celebración personalizada',
+      'Copa de Cava andaluz',
+      'Café o Infusión'
     ],
     drinks: [
-      'Vino blanco afrutado de Córdoba',
-      'Cerveza de grifo muy fría',
-      'Refrescos, zumos y agua mineral'
+      'Vinos Rioja, Manzanilla, Cerveza Cruzcampo, Refrescos y Licores de la casa'
     ],
-    iconName: 'Baby'
+    iconName: 'Award'
   },
   {
-    id: 'pkg3',
-    name: 'Menú Comunión Tradición',
-    description: 'Equilibrado y delicioso, ideal para el disfrute de mayores y pequeños por igual en su día especial.',
-    pricePerPerson: 48,
+    id: 'ep3',
+    name: 'Menú Infantil "Caprichito"',
+    description: 'Un menú diseñado especialmente para los más pequeños, con ingredientes sencillos y de alta calidad para su total disfrute.',
+    pricePerPerson: 18,
     starters: [
-      'Fritura selecta andaluza en tempura fina',
-      'Gambas blancas de Huelva al ajillo borboteante',
-      'Salmorejo tradicional emulsionado con AOVE'
+      'Surtido de fritos del chef (Croquetas de jamón, fingers de pollo caseros)'
     ],
     mains: [
-      'Paletilla de cordero lechal asada lentamente al romero',
-      'Lomo de bacalao al horno con suave alioli gratinado'
+      'Escalope de pollo crujiente con patatas fritas recién hechas'
     ],
     desserts: [
-      'Tarta de comunión personalizada',
-      'Copa de licor tradicional andaluz para sobremesa'
+      'Copa de helado tres gustos o tarta infantil',
+      'Refrescos, zumos y agua ilimitados'
     ],
     drinks: [
-      'Vinos selectos de la tierra (Ribera del Duero y Rueda)',
-      'Refrescos y cervezas nacionales',
-      'Servicio de agua mineral'
+      'Refrescos y zumos variados'
     ],
-    iconName: 'PartyPopper'
+    iconName: 'Heart'
   }
 ];
