@@ -7,6 +7,7 @@ export interface MenuItem {
   popular?: boolean;
   vegetarian?: boolean;
   celiac?: boolean;
+  image?: string;
 }
 
 export interface Review {
