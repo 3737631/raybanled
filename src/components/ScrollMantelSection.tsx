@@ -47,11 +47,11 @@ export default function ScrollMantelSection() {
   const mItem2Opacity = useTransform(smoothProgress, [0.44, 0.52, 0.66, 0.74], [0, 1, 1, 0]);
   const mItem2Y = useTransform(smoothProgress, [0.44, 0.52, 0.66, 0.74], [20, 0, 0, -20]);
 
-  const mItem3Opacity = useTransform(smoothProgress, [0.66, 0.74, 0.86, 0.92], [0, 1, 1, 0]);
-  const mItem3Y = useTransform(smoothProgress, [0.66, 0.74, 0.86, 0.92], [20, 0, 0, -20]);
+  const mItem3Opacity = useTransform(smoothProgress, [0.56, 0.64, 0.76, 0.82], [0, 1, 1, 0]);
+  const mItem3Y = useTransform(smoothProgress, [0.56, 0.64, 0.76, 0.82], [20, 0, 0, -20]);
 
-  const mItem4Opacity = useTransform(smoothProgress, [0.86, 0.94, 1.0, 1.0], [0, 1, 1, 1]);
-  const mItem4Y = useTransform(smoothProgress, [0.86, 0.94], [20, 0]);
+  const mItem4Opacity = useTransform(smoothProgress, [0.72, 0.82, 1.0, 1.0], [0, 1, 1, 1]);
+  const mItem4Y = useTransform(smoothProgress, [0.72, 0.82], [20, 0]);
 
   return (
     <div 

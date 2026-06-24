@@ -375,12 +375,13 @@ export default function App() {
                 className="fixed inset-0 z-[200] bg-black/85 flex items-center justify-center p-4 sm:p-8"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
+                onClick={closeLightbox}
               >
-                <button onClick={closeLightbox} className="absolute top-4 right-4 z-20 p-2 text-white/80 hover:text-white transition-colors cursor-pointer" aria-label="Cerrar">
-                  <X className="w-7 h-7" />
+                <button onClick={(e) => { e.stopPropagation(); closeLightbox(); }} className="absolute top-3 right-3 z-20 p-1.5 bg-black/40 text-white/90 hover:bg-black/60 hover:text-white rounded-full transition-colors cursor-pointer" aria-label="Cerrar">
+                  <X className="w-5 h-5" />
                 </button>
 
-                <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/60 hover:text-white transition-colors cursor-pointer" aria-label="Anterior">
+                <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 text-white/60 hover:text-white transition-colors cursor-pointer" aria-label="Anterior">
                   <ChevronLeft className="w-8 h-8" />
                 </button>
 
@@ -392,14 +393,14 @@ export default function App() {
                   transition={{ duration: 0.2 }}
                   src={galleryImages[lightboxIndex]}
                   alt={`Galería ${lightboxIndex + 1}`}
-                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl pointer-events-none"
                 />
 
-                <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/60 hover:text-white transition-colors cursor-pointer" aria-label="Siguiente">
+                <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 text-white/60 hover:text-white transition-colors cursor-pointer" aria-label="Siguiente">
                   <ChevronRight className="w-8 h-8" />
                 </button>
 
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                   {galleryImages.map((_, i) => (
                     <button
                       key={i}
