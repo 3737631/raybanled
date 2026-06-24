@@ -6,7 +6,6 @@ import {
   Camera
 } from 'lucide-react';
 
-import InteractiveTable from './components/InteractiveTable';
 import MenuCatalog from './components/MenuCatalog';
 import EventCustomizer from './components/EventCustomizer';
 import ReviewsCarousel from './components/ReviewsCarousel';
@@ -303,9 +302,6 @@ export default function App() {
 
       {/* Kinetic Scrolling Tablecloth Section */}
       <ScrollMantelSection />
-
-      {/* Tapas Interactive Table Section */}
-      <InteractiveTable />
 
       {/* Catalog Menu */}
       <MenuCatalog />
