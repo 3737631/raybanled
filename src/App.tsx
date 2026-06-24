@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
-  MapPin, Phone, Clock, Menu, X, ArrowUp, ChevronRight, 
-  Sparkles, Heart, Utensils, Calendar, Star, ChevronDown,
-  Camera
+  MapPin, Phone, Clock, Menu, X, ChevronRight, 
+  Sparkles, Heart, Calendar, Star, ChevronDown
 } from 'lucide-react';
 
 import MenuCatalog from './components/MenuCatalog';
@@ -15,7 +14,6 @@ import ScrollMantelSection from './components/ScrollMantelSection';
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const { scrollY } = useScroll();
@@ -25,7 +23,6 @@ export default function App() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      setShowScrollTop(window.scrollY > 600);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -36,10 +33,6 @@ export default function App() {
       clearTimeout(timer);
     };
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <div className="min-h-screen bg-background text-text flex flex-col selection:bg-accent selection:text-white antialiased">
@@ -87,7 +80,6 @@ export default function App() {
 
             <nav className="hidden lg:flex items-center gap-8">
               <a href="#nosotros" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Nosotros</a>
-              <a href="#mesa-interactiva" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans flex items-center gap-1.5">La Mesa <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#B8826A] animate-pulse"></span></a>
               <a href="#carta" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Carta</a>
               <a href="#eventos" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Celebraciones</a>
               <a href="#opiniones" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Opiniones</a>
@@ -121,10 +113,6 @@ export default function App() {
             >
               <div className="px-4 pt-3 pb-6 space-y-2">
                 <a href="#nosotros" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Nosotros</a>
-                <a href="#mesa-interactiva" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans flex items-center justify-between">
-                  <span>La Mesa Interactiva</span>
-                  <span className="bg-[#B8826A]/15 text-[#B8826A] text-[9px] font-bold px-2 py-0.5 tracking-wider">PROBAR MANTEL</span>
-                </a>
                 <a href="#carta" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Carta y Especialidades</a>
                 <a href="#eventos" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Simulador de Celebraciones</a>
                 <a href="#opiniones" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Opiniones</a>
@@ -177,11 +165,7 @@ export default function App() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto pt-4">
-            <a href="#mesa-interactiva" className="group w-full sm:w-auto px-8 py-3.5 bg-[#B8826A] hover:bg-[#3F3428] text-[#F3EEE4] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center justify-center gap-2 rounded-full shadow-sm hover:shadow-md">
-              <span>El Mantel Interactivo</span> 
-              <Utensils className="w-3.5 h-3.5" />
-            </a>
-            <a href="#reservas" className="group w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#6B5A45] text-[#3F3428] hover:bg-[#3F3428] hover:text-[#F3EEE4] hover:border-[#3F3428] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center justify-center gap-2 rounded-full">
+            <a href="#reservas" className="group w-full sm:w-auto px-8 py-3.5 bg-[#B8826A] hover:bg-[#3F3428] text-[#F3EEE4] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center justify-center gap-2 rounded-full shadow-sm hover:shadow-md">
               <span>Reservar Mesa</span> 
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </a>
@@ -196,15 +180,6 @@ export default function App() {
               <MapPin className="w-4 h-4 text-[#B8826A]" /> <span className="text-[#3F3428]">Calle Mandarina 2, Mairena del Aljarafe, Sevilla</span>
             </span>
           </div>
-
-          <div className="pt-6">
-            <a href="#nosotros" className="inline-flex flex-col items-center gap-2 text-[10px] uppercase font-bold tracking-widest text-[#6B5A45] hover:text-[#B8826A] transition-colors font-sans group">
-              <span>Bajar al restaurante</span>
-              <div className="w-5 h-9 rounded-full border-2 border-[#D6C3A5] flex justify-center p-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#B8826A] animate-scroll-down"></div>
-              </div>
-            </a>
-          </div>
         </div>
       </section>
 
@@ -216,34 +191,37 @@ export default function App() {
             {/* Visual Column Placeholder Cards */}
             <div className="relative space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div className="aspect-[4/5] bg-surface border-2 border-dashed border-[#CFC2AE]/60 rounded-3xl flex flex-col items-center justify-center text-center p-6 group hover:border-accent/40 hover:bg-accent/5 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mb-4">
-                    <Camera className="w-5 h-5 text-[#B8826A]" />
-                  </div>
-                  <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wider">La Venta</h4>
-                  <p className="text-[10px] text-brown/65 mt-2 font-sans px-1 leading-normal">
-                    [Espacio para foto de la edificación]
-                  </p>
+                <div className="aspect-[4/5] rounded-3xl overflow-hidden group relative">
+                  <img
+                    src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_30_nwrqjh.webp"
+                    alt="La Venta"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <h4 className="absolute bottom-4 left-4 font-serif font-bold text-white text-sm uppercase tracking-wider drop-shadow-md">La Venta</h4>
                 </div>
 
-                <div className="aspect-[4/5] bg-surface border-2 border-dashed border-[#CFC2AE]/60 rounded-3xl flex flex-col items-center justify-center text-center p-6 group hover:border-accent/40 hover:bg-accent/5 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mb-4">
-                    <Camera className="w-5 h-5 text-[#B8826A]" />
-                  </div>
-                  <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wider">La Terraza</h4>
-                  <p className="text-[10px] text-brown/65 mt-2 font-sans px-1 leading-normal">
-                    [Espacio para foto del patio exterior]
-                  </p>
+                <div className="aspect-[4/5] rounded-3xl overflow-hidden group relative">
+                  <img
+                    src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_21_rmmej6.webp"
+                    alt="La Terraza"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <h4 className="absolute bottom-4 left-4 font-serif font-bold text-white text-sm uppercase tracking-wider drop-shadow-md">La Terraza</h4>
                 </div>
 
-                <div className="aspect-[4/5] bg-surface border-2 border-dashed border-[#CFC2AE]/60 rounded-3xl flex flex-col items-center justify-center text-center p-6 group hover:border-accent/40 hover:bg-accent/5 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center mb-4">
-                    <Camera className="w-5 h-5 text-[#B8826A]" />
-                  </div>
-                  <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wider">Celebraciones</h4>
-                  <p className="text-[10px] text-brown/65 mt-2 font-sans px-1 leading-normal">
-                    [Espacio para foto de eventos]
-                  </p>
+                <div className="aspect-[4/5] rounded-3xl overflow-hidden group relative">
+                  <img
+                    src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_31_nibgiv.webp"
+                    alt="Celebraciones"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <h4 className="absolute bottom-4 left-4 font-serif font-bold text-white text-sm uppercase tracking-wider drop-shadow-md">Celebraciones</h4>
                 </div>
               </div>
             </div>
@@ -296,6 +274,61 @@ export default function App() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Galería */}
+      <section className="relative z-10 bg-surface py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-3 mb-14">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text font-serif leading-tight">
+              Nuestra Esencia en Imágenes
+            </h2>
+            <div className="tile-divider justify-center my-4">
+              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
+              <div className="tile-star bg-[#8FA3B1]/60"></div>
+              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_32_finhje.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_29_uutobw.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_22_t4nya7.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_27_mhrc8j.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_20_bi5bhp.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_24_g77mqn.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_28_eslvlg.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_26_z1zqjt.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_25_h4vgqs.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_19_c2jiks.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260952/unnamed_23_jmbunf.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div className="aspect-[4/3] rounded-xl overflow-hidden group">
+              <img src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260952/unnamed_18_ckvs0l.webp" alt="Galería" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+            </div>
           </div>
         </div>
       </section>
@@ -383,42 +416,19 @@ export default function App() {
               </div>
             </div>
 
-            {/* Custom Interactive Vector Map */}
+            {/* Interactive Google Maps Embed */}
             <div className="lg:col-span-7 flex flex-col justify-between">
-              <div className="p-6 border border-border flex flex-col justify-between h-full bg-surface relative overflow-hidden min-h-[400px]">
-                <div className="absolute top-0 left-0 w-full h-2 bg-tile-pattern opacity-20 z-15"></div>
-                
-                <div className="relative w-full h-full bg-background border border-border overflow-hidden flex flex-col items-center justify-center p-6 text-center">
-                  <div className="absolute inset-0 opacity-15 pointer-events-none">
-                    <div className="absolute top-0 left-1/3 w-[2px] h-full bg-accent/60"></div>
-                    <div className="absolute top-0 left-2/3 w-[3px] h-full bg-accent/60"></div>
-                    <div className="absolute top-1/4 left-0 w-full h-[2px] bg-accent/60"></div>
-                    <div className="absolute top-3/4 left-0 w-full h-[3px] bg-accent/60"></div>
-                    <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-accent/60 rotate-12"></div>
-                  </div>
-
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-dashed border-accent/20 bg-background/90 z-0"></div>
-
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="relative">
-                      <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center animate-ripple absolute -top-1 -left-1"></div>
-                      <div className="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-md relative z-10">
-                        <MapPin className="w-5 h-5 animate-bounce" />
-                      </div>
-                    </div>
-                    <div className="mt-4 bg-surface border border-border p-4 rounded-none max-w-xs shadow-md space-y-1 relative z-10">
-                      <h4 className="font-serif font-bold text-text text-sm uppercase tracking-wide">Venta El Capricho</h4>
-                      <p className="text-[10px] text-brown font-sans leading-tight">Calle Mandarina 2 (Aparcamiento fácil)</p>
-                      <span className="inline-block text-[9px] font-bold text-accent uppercase font-sans mt-1.5 tracking-wider">Mairena del Aljarafe, Sevilla</span>
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-4 right-4 z-20">
-                    <a href="https://maps.google.com/?q=Calle+Mandarina+2+41927+Mairena+del+Aljarafe+Sevilla" target="_blank" rel="noopener noreferrer" className="bg-brown text-white font-sans font-bold text-xs uppercase tracking-widest px-4 py-2.5 rounded-none shadow-md transition-all flex items-center gap-1.5">
-                      Abrir Mapa Real <ChevronRight className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
-                </div>
+              <div className="p-2 border border-border flex flex-col justify-between h-full bg-surface relative overflow-hidden min-h-[400px]">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.7715886010673!2d-6.033543!3d37.380987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1261367d1cf0f7%3A0x7c3b2e5c5e5b5a0!2sCalle%20Mandarina%202%2C%2041927%20Mairena%20del%20Aljarafe%2C%20Sevilla!5e0!3m2!1ses!2ses!4v1"
+                  width="100%"
+                  height="100%"
+                  className="min-h-[400px] border-0"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Ubicación de Venta El Capricho"
+                />
               </div>
             </div>
           </div>
@@ -441,7 +451,6 @@ export default function App() {
               <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Enlaces</h4>
               <ul className="space-y-2 text-xs font-sans text-background/75">
                 <li><a href="#nosotros" className="hover:text-accent">Nosotros</a></li>
-                <li><a href="#mesa-interactiva" className="hover:text-accent">La Mesa Interactiva</a></li>
                 <li><a href="#carta" className="hover:text-accent">Nuestra Carta</a></li>
                 <li><a href="#eventos" className="hover:text-accent">Simulador de Eventos</a></li>
                 <li><a href="#reservas" className="hover:text-accent">Reservar Mesa</a></li>
@@ -482,22 +491,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* Back to Top */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-40 p-3 rounded-xl bg-accent text-white shadow-lg hover:bg-brown transition-all duration-300 cursor-pointer"
-            aria-label="Volver arriba"
-          >
-            <ArrowUp className="w-5 h-5 stroke-[2.5]" />
-          </motion.button>
-        )}
-      </AnimatePresence>
 
     </div>
   );

@@ -21,7 +21,7 @@ export default function ReviewsCarousel() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-14">
           <span className="text-xs font-bold uppercase tracking-widest text-accent bg-accent/10 px-3 py-1.5 inline-flex items-center gap-1">
-            ⭐ Confianza y Tradición
+            Confianza y Tradición
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text mt-4 mb-2">La Voz de Nuestros Clientes</h2>
           <p className="text-sm text-brown max-w-xl mx-auto mt-2">Con un promedio de 4.0 ★ en Google basado en reseñas reales.</p>

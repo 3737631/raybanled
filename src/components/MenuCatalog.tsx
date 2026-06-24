@@ -139,15 +139,7 @@ export default function MenuCatalog() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-20 text-center premium-card p-8 rounded-3xl border border-primary/80 max-w-2xl mx-auto bg-background/50">
-          <span className="font-cursive text-3xl text-accent block mb-1.5">Días de fiesta</span>
-          <h3 className="text-xl font-bold text-text font-serif mb-2">¿Planeando un acontecimiento especial?</h3>
-          <p className="text-brown text-xs sm:text-sm mb-5 max-w-md mx-auto">Diseñamos menús de celebración a medida para comuniones, bautizos y bodas.</p>
-          <a href="#eventos" className="group inline-flex items-center gap-2 px-6 py-3.5 border border-accent text-accent hover:bg-accent hover:text-white transition-all duration-300 font-sans font-bold text-[10px] uppercase tracking-widest rounded-full">
-            <span>Ver Menús de Evento</span> 
-            <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
+
       </div>
     </section>
   );

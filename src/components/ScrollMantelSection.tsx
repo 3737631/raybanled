@@ -11,8 +11,8 @@ export default function ScrollMantelSection() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 95,
-    damping: 25,
+    stiffness: 140,
+    damping: 22,
     restDelta: 0.001
   });
 
@@ -209,7 +209,7 @@ export default function ScrollMantelSection() {
 
               <motion.div 
                 style={{ opacity: item4Opacity, scale: item4Scale, y: item4Y, rotate: item4Rotate }}
-                className="bg-brown text-[#F3EEE4] p-7 border border-[#CFC2AE]/25 rounded-none relative overflow-hidden"
+                className="bg-text text-[#F3EEE4] p-7 border border-[#CFC2AE]/25 rounded-none relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-3 h-full bg-black/15 pointer-events-none" />
                 <div className="pl-3.5">
@@ -280,7 +280,7 @@ export default function ScrollMantelSection() {
                 </p>
               </motion.div>
 
-              <motion.div style={{ opacity: mItem4Opacity, y: mItem4Y }} className="absolute inset-x-2 bg-brown text-[#F3EEE4] p-5 border border-[#CFC2AE]/25 rounded-none">
+              <motion.div style={{ opacity: mItem4Opacity, y: mItem4Y }} className="absolute inset-x-2 bg-text text-[#F3EEE4] p-5 border border-[#CFC2AE]/25 rounded-none">
                 <div className="absolute top-0 left-0 w-2.5 h-full bg-black/15 pointer-events-none" />
                 <div className="pl-3">
                   <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-[#B8826A] font-sans flex items-center gap-1 mb-1">
