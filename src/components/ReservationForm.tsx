@@ -62,7 +62,7 @@ export default function ReservationForm() {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-text uppercase flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-accent" /> Fecha</label>
-                    <input type="date" name="date" required value={formData.date} onChange={handleChange} className="w-full px-4 py-3 border border-border bg-background/50 focus:bg-white focus:outline-none text-sm" />
+                    <input type="date" name="date" required value={formData.date} onChange={handleChange} className="w-full px-4 py-3 border border-border bg-background/50 focus:bg-white focus:outline-none text-sm appearance-none min-w-0" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-text uppercase flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-accent" /> Hora de llegada</label>
