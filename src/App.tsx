@@ -307,7 +307,7 @@ export default function App() {
       </section>
 
       {/* SECCIÓN SCROLL MANTELES DINÁMICOS */}
-      <section className="bg-surface py-20 border-t border-b border-border/40 relative">
+      <section className="border-t border-b border-border/40 relative">
         <ScrollMantelSection />
       </section>
 
