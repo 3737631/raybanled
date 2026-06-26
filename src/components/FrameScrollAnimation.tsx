@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BASE = import.meta.env.BASE_URL;
 const TOTAL_FRAMES = 151;
 const SCROLL_DISTANCE = TOTAL_FRAMES * 28;
 
@@ -43,7 +44,7 @@ export default function FrameScrollAnimation() {
 
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
-      img.src = `/frames/ezgif-frame-${pad(i)}.jpg`;
+      img.src = `${BASE}frames/ezgif-frame-${pad(i)}.jpg`;
       img.onload = () => {
         loaded++;
         if (loaded >= TOTAL_FRAMES) setReady(true);
