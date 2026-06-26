@@ -1,508 +1,301 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { 
-  MapPin, Phone, Clock, Menu, X, ChevronRight, ChevronLeft,
-  Sparkles, Heart, Calendar, Star, ChevronDown
-} from 'lucide-react';
-
-import MenuCatalog from './components/MenuCatalog';
-import EventCustomizer from './components/EventCustomizer';
-import ReviewsCarousel from './components/ReviewsCarousel';
-import ReservationForm from './components/ReservationForm';
-import ScrollMantelSection from './components/ScrollMantelSection';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
+import { Menu, X, ChevronRight, Sparkles, Shield, Zap, Sun, Eye, Droplets } from 'lucide-react';
 import FrameScrollAnimation from './components/FrameScrollAnimation';
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const touchStartX = useRef(0);
-
-  const galleryImages = [
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_32_finhje.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_29_uutobw.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_22_t4nya7.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_27_mhrc8j.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_20_bi5bhp.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_24_g77mqn.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_28_eslvlg.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_26_z1zqjt.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_25_h4vgqs.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_19_c2jiks.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260952/unnamed_23_jmbunf.webp',
-    'https://res.cloudinary.com/dmuxgamms/image/upload/v1782260952/unnamed_18_ckvs0l.webp',
-  ];
-
-  const openLightbox = useCallback((index: number) => {
-    setLightboxIndex(index);
-    setLightboxOpen(true);
-  }, []);
-
-  const closeLightbox = useCallback(() => {
-    setLightboxOpen(false);
-  }, []);
-
-  const nextImage = useCallback(() => {
-    setLightboxIndex((prev) => (prev + 1) % galleryImages.length);
-  }, [galleryImages.length]);
-
-  const prevImage = useCallback(() => {
-    setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
-  }, [galleryImages.length]);
 
   useEffect(() => {
-    if (!lightboxOpen) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') nextImage();
-      if (e.key === 'ArrowLeft') prevImage();
-    };
-    document.addEventListener('keydown', handleKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleKey);
-      document.body.style.overflow = '';
-    };
-  }, [lightboxOpen, closeLightbox, nextImage, prevImage]);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) prevImage();
-      else nextImage();
-    }
-  };
-
-  const { scrollY } = useScroll();
-  const mantelY = useTransform(scrollY, [0, 1000], [0, 240]);
-  const mantelHeight = useTransform(scrollY, [0, 1000], [20, 120]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-text flex flex-col selection:bg-accent selection:text-white antialiased">
-      
+    <div className="min-h-screen bg-cream text-text flex flex-col selection:bg-gold/30 selection:text-brown-dark antialiased">
+
       {/* Header */}
-      <header 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          scrolled 
-            ? 'bg-background/95 backdrop-blur-md shadow-md py-3 border-b border-border' 
-            : 'bg-transparent py-5 border-b border-transparent'
-        }`}
-      >
+      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-black/90 backdrop-blur-md shadow-lg py-3 border-b border-gold/20' : 'bg-transparent py-5'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <a href="#" className="flex flex-col group select-none">
-              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-[0.1em] text-[#4A2E1A] font-serif uppercase group-hover:text-[#C8A97E] transition-colors">
-                VENTA EL CAPRICHO
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6B4423] font-sans">
-                Mairena del Aljarafe
+            <a href="#" className="flex items-center gap-3 group">
+              <div className="w-8 h-8 rounded-full border-2 border-gold flex items-center justify-center">
+                <span className="text-gold text-xs font-bold tracking-wider">RB</span>
+              </div>
+              <span className="text-lg font-bold tracking-[0.15em] text-cream font-sans uppercase">
+                RAY-BAN <span className="text-gold">LED</span>
               </span>
             </a>
 
             <nav className="hidden lg:flex items-center gap-8">
-              <a href="#nosotros" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Nosotros</a>
-              <a href="#carta" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Carta</a>
-              <a href="#eventos" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Celebraciones</a>
-              <a href="#opiniones" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Opiniones</a>
-              <a href="#ubicacion" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Horario y Mapa</a>
-              <a 
-                href="#reservas" 
-                className="px-6 py-2.5 bg-[#C8A97E] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#6B4423] transition-colors rounded-none shadow-sm"
-              >
-                Reservar Mesa
+              <a href="#tecnologia" className="text-[11px] font-bold uppercase tracking-widest text-cream/80 hover:text-gold border-b border-transparent hover:border-gold pb-1 transition-all font-sans">Tecnología</a>
+              <a href="#caracteristicas" className="text-[11px] font-bold uppercase tracking-widest text-cream/80 hover:text-gold border-b border-transparent hover:border-gold pb-1 transition-all font-sans">Características</a>
+              <a href="#diseno" className="text-[11px] font-bold uppercase tracking-widest text-cream/80 hover:text-gold border-b border-transparent hover:border-gold pb-1 transition-all font-sans">Diseño</a>
+              <a href="#especificaciones" className="text-[11px] font-bold uppercase tracking-widest text-cream/80 hover:text-gold border-b border-transparent hover:border-gold pb-1 transition-all font-sans">Especificaciones</a>
+              <a href="#compra" className="px-6 py-2.5 bg-gold text-black text-[11px] font-bold uppercase tracking-widest hover:bg-cream transition-all rounded-none shadow-sm">
+                Comprar
               </a>
             </nav>
 
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-none hover:bg-primary/20 text-[#4A2E1A] transition-colors cursor-pointer border border-[#C8A97E]"
-              aria-label="Abrir Menú"
-            >
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 text-cream/80 hover:text-gold transition-colors cursor-pointer border border-gold/30">
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="lg:hidden bg-[#F5E8D8] border-t border-[#C8A97E] shadow-lg"
-            >
-              <div className="px-4 pt-3 pb-6 space-y-2">
-                <a href="#nosotros" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Nosotros</a>
-                <a href="#carta" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Carta y Especialidades</a>
-                <a href="#eventos" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Simulador de Celebraciones</a>
-                <a href="#opiniones" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Opiniones</a>
-                <a href="#ubicacion" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Horario y Ubicación</a>
-                <div className="pt-3 px-3">
-                  <a href="#reservas" onClick={() => setMobileMenuOpen(false)} className="w-full block py-3 bg-[#C8A97E] text-white text-center font-bold text-xs uppercase tracking-widest font-sans rounded-none">Reservar Mesa en línea</a>
-                </div>
+        {mobileMenuOpen && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }}
+            className="lg:hidden bg-black/95 border-t border-gold/20 shadow-lg">
+            <div className="px-4 pt-3 pb-6 space-y-2">
+              {['Tecnología', 'Características', 'Diseño', 'Especificaciones'].map(item => (
+                <a key={item} href={`#${item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-cream/80 hover:text-gold font-sans">
+                  {item}
+                </a>
+              ))}
+              <div className="pt-3 px-3">
+                <a href="#compra" onClick={() => setMobileMenuOpen(false)}
+                  className="w-full block py-3 bg-gold text-black text-center font-bold text-xs uppercase tracking-widest font-sans rounded-none">
+                  Comprar ahora
+                </a>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
       </header>
 
       <FrameScrollAnimation />
 
-      {/* Nosotros Section */}
-      <section id="nosotros" className="py-24 bg-background relative overflow-hidden border-t border-border">
+      {/* Tecnología Section */}
+      <section id="tecnologia" className="py-28 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
+            backgroundSize: '128px 128px',
+          }}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Visual Column Placeholder Cards */}
-            <div className="relative space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden group relative">
-                  <img
-                    src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_30_nwrqjh.webp"
-                    alt="La Venta"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <h4 className="absolute bottom-4 left-4 font-serif font-bold text-white text-sm uppercase tracking-wider drop-shadow-md">La Venta</h4>
-                </div>
-
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden group relative">
-                  <img
-                    src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260950/unnamed_21_rmmej6.webp"
-                    alt="La Terraza"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <h4 className="absolute bottom-4 left-4 font-serif font-bold text-white text-sm uppercase tracking-wider drop-shadow-md">La Terraza</h4>
-                </div>
-
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden group relative">
-                  <img
-                    src="https://res.cloudinary.com/dmuxgamms/image/upload/v1782260951/unnamed_31_nibgiv.webp"
-                    alt="Celebraciones"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <h4 className="absolute bottom-4 left-4 font-serif font-bold text-white text-sm uppercase tracking-wider drop-shadow-md">Celebraciones</h4>
-                </div>
-              </div>
-            </div>
-
-            {/* Text Column */}
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <span className="font-cursive text-3xl sm:text-4xl text-accent block leading-none">
-                  Nuestra historia y raíces
-                </span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text font-serif leading-tight">
-                  Tradición, Familia y Cocina con Alma
-                </h2>
-              </div>
-              <div className="w-16 h-[1px] bg-accent/40"></div>
-              
-              <div className="space-y-4 text-brown text-xs sm:text-sm leading-relaxed font-sans">
-                <p>
-                  En <strong className="text-text font-serif">Venta El Capricho</strong>, entendemos que la comida es mucho más que alimentación: es una oportunidad única de sentarse a compartir con quienes más amamos. Por eso, hemos diseñado un espacio amplio y acogedor para que te sientas como en tu propia casa.
-                </p>
-                <p>
-                  Nuestros salones y la espléndida terraza exterior son el escenario ideal para celebrar comuniones entrañables, bautizos alegres, comidas familiares de fin de semana o almuerzos de negocios. Ponemos todo nuestro empeño en que cada comensal marche con una sonrisa y el deseo de regresar.
-                </p>
-              </div>
-
-              <div className="border-l border-l-accent/65 pl-5 py-2.5 bg-accent/5">
-                <p className="font-cursive text-2xl text-accent leading-relaxed">
-                  "No nos limitamos a servir platos; nuestro compromiso es tejer momentos felices que duren para siempre."
-                </p>
-                <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-brown/70 font-sans block mt-1.5">— Equipo de Sala, Venta El Capricho</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
-                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Trato Familiar</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
-                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Fácil Aparcamiento</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
-                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Zona Infantil Amplia</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 bg-accent text-white flex items-center justify-center text-xs">✓</div>
-                  <span className="text-xs font-bold text-text font-sans uppercase tracking-wider">Terraza Climatizada</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Galería */}
-      <section className="relative z-10 bg-surface py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 mb-14">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text font-serif leading-tight">
-              Nuestra Esencia en Imágenes
+          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }} viewport={{ once: true }}
+            className="text-center space-y-4 max-w-3xl mx-auto mb-20">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gold/10 text-gold text-[9px] font-bold tracking-[0.25em] uppercase font-sans">
+              <Sparkles className="w-3 h-3" /> Innovación Lumínica
+            </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream font-serif leading-tight">
+              LED Technology
             </h2>
-            <div className="tile-divider justify-center my-4">
-              <div className="w-16 h-[1px] bg-[#C8A97E]/70"></div>
-              <div className="tile-star bg-[#C8A97E]/60"></div>
-              <div className="w-16 h-[1px] bg-[#C8A97E]/70"></div>
-            </div>
-          </div>
+            <p className="text-brown text-sm sm:text-base font-sans leading-relaxed max-w-2xl mx-auto">
+              La integración perfecta de iluminación LED de alta densidad en la montura Wayfarer más icónica del mundo.
+              Cada par de Ray-Ban LED contiene más de 200 micro-LEDs cosidos a mano en la montura de acetato.
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-            {galleryImages.map((url, i) => (
-              <button
-                key={i}
-                onClick={() => openLightbox(i)}
-                className="aspect-[4/3] rounded-xl overflow-hidden group cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent"
-              >
-                <img src={url} alt={`Galería ${i + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
-              </button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { icon: Zap, title: '200+ Micro-LEDs', desc: 'Matriz de LEDs de alta densidad integrada directamente en el frontal de acetato.' },
+              { icon: Sun, title: '400 lúmenes', desc: 'Iluminación potente con 3 modos de brillo ajustables mediante gesto táctil.' },
+              { icon: Shield, title: '8 horas de autonomía', desc: 'Batería recargable por USB-C con carga rápida (15 min = 2 horas de uso).' },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.15 }} viewport={{ once: true }}
+                className="border border-gold/15 bg-black/50 p-8 hover:border-gold/40 transition-all group">
+                <div className="w-12 h-12 border border-gold/30 flex items-center justify-center mb-5 group-hover:bg-gold/10 transition-all">
+                  <item.icon className="w-5 h-5 text-gold" />
+                </div>
+                <h3 className="text-lg font-bold text-cream font-serif mb-2">{item.title}</h3>
+                <p className="text-brown text-sm font-sans leading-relaxed">{item.desc}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Kinetic Scrolling Tablecloth Section */}
-      <ScrollMantelSection />
-
-      {/* Catalog Menu */}
-      <MenuCatalog />
-
-      {/* Simulator Event Customizer */}
-      <EventCustomizer />
-
-      {/* Reviews Section */}
-      <ReviewsCarousel />
-
-      {/* Booking Form Section */}
-      <ReservationForm />
-
-      {/* Map Opening Hours Section */}
-      <section id="ubicacion" className="py-24 bg-background relative overflow-hidden border-t border-border">
-        <div className="absolute top-0 left-0 w-full h-4 bg-tile-pattern opacity-20"></div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
-            <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
-              <div className="space-y-4">
-                <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-accent bg-accent/10 px-3 py-1.5 rounded-none font-sans inline-block">
-                  ¿Dónde Estamos?
+      {/* Características Section */}
+      <section id="caracteristicas" className="py-28 bg-cream relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }} viewport={{ once: true }} className="space-y-8">
+              <div className="space-y-2">
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gold bg-gold/10 px-3 py-1.5 font-sans inline-block">
+                  Diseñado para destacar
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text font-serif">
-                  Ven a Disfrutar
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brown-dark font-serif leading-tight">
+                  La icónica montura Wayfarer, reimaginada
                 </h2>
-                <p className="text-sm text-brown font-sans leading-relaxed">
-                  Nos encontramos en una zona tranquila y muy accesible de Mairena del Aljarafe, con excelentes conexiones para venir desde Sevilla o cualquier pueblo de la comarca.
-                </p>
               </div>
+              <div className="w-16 h-[1px] bg-gold/60"></div>
+              <ul className="space-y-5">
+                {[
+                  'Acetato de celulosa de primera calidad importado de Italia',
+                  'Bisagras de titanio con apertura y cierre suaves',
+                  'Lentes de grado óptico con protección UV400 y antirreflejante',
+                  'Tecnología LED integrada sin alterar el perfil clásico',
+                  'Resistencia al agua IPX4 para uso en exteriores',
+                  'Estuche de cuero marrón premium con carga inalámbrica integrada',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="w-5 h-5 bg-gold/20 text-gold flex items-center justify-center text-[10px] mt-0.5">✓</div>
+                    <span className="text-brown text-sm font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="#especificaciones" className="inline-flex items-center gap-2 text-gold text-xs font-bold uppercase tracking-widest hover:text-brown-dark transition-colors font-sans group">
+                Ver especificaciones completas <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </motion.div>
 
-              <div className="space-y-4 font-sans text-sm">
-                <div className="flex items-start gap-4 bg-surface p-5 border border-border">
-                  <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-bold text-text text-xs uppercase tracking-widest font-sans">Dirección Postal</h4>
-                    <p className="text-brown text-xs mt-1">Calle Mandarina 2, 41927 Mairena del Aljarafe, Sevilla</p>
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }}
+              className="aspect-square bg-black relative overflow-hidden border border-gold/20">
+              <div className="absolute inset-4 border border-gold/10 flex items-center justify-center">
+                <div className="text-center space-y-4 p-8">
+                  <div className="w-16 h-16 rounded-full border-2 border-gold flex items-center justify-center mx-auto">
+                    <Eye className="w-7 h-7 text-gold" />
                   </div>
-                </div>
-
-                <div className="flex items-start gap-4 bg-surface p-5 border border-border">
-                  <Phone className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-bold text-text text-xs uppercase tracking-widest font-sans">Reservas Telefónicas</h4>
-                    <p className="text-accent text-sm font-bold mt-1">
-                      <a href="tel:664424736" className="hover:underline tracking-wider">664 424 736</a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 bg-surface p-5 border border-border">
-                  <Clock className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                  <div className="w-full">
-                    <h4 className="font-bold text-text text-xs uppercase tracking-widest font-sans mb-3">Horarios de Apertura</h4>
-                    <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs text-brown">
-                      <span className="font-medium text-text">Miércoles y Jueves:</span>
-                      <span className="text-right">13:00 - 17:00 h</span>
-                      <span className="font-medium text-text">Viernes:</span>
-                      <span className="text-right">13:00 - 17:00 / 20:00 - 00:00 h</span>
-                      <span className="font-medium text-text">Sábados:</span>
-                      <span className="text-right">13:00 - 00:00 h</span>
-                      <span className="font-medium text-text">Domingos:</span>
-                      <span className="text-right">13:00 - 18:00 h</span>
-                      <span className="font-bold text-accent pt-1">Lunes y Martes:</span>
-                      <span className="text-right text-accent font-bold pt-1">Cerrado</span>
-                    </div>
-                  </div>
+                  <p className="text-cream/60 text-sm font-sans max-w-xs mx-auto leading-relaxed">
+                    "No solo ves el mundo. Lo iluminas."
+                  </p>
+                  <div className="w-12 h-[1px] bg-gold/40 mx-auto"></div>
+                  <span className="text-gold/50 text-[10px] uppercase tracking-widest font-sans block">Ray-Ban LED</span>
                 </div>
               </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <a href="https://maps.google.com/?q=Calle+Mandarina+2+41927+Mairena+del+Aljarafe+Sevilla" target="_blank" rel="noopener noreferrer" className="px-6 py-3.5 bg-accent text-white font-bold text-xs uppercase tracking-widest rounded-none transition-all font-sans text-center shadow-sm flex items-center justify-center gap-2">
-                  <MapPin className="w-4 h-4" /> Cómo llegar con GPS
-                </a>
-                <a href="tel:664424736" className="px-6 py-3.5 bg-transparent text-text border-2 border-brown font-bold text-xs uppercase tracking-widest rounded-none transition-all font-sans text-center flex items-center justify-center gap-2">
-                  <Phone className="w-4 h-4 text-accent" /> Llamar Directamente
-                </a>
-              </div>
-            </div>
+      {/* Diseño Section */}
+      <section id="diseno" className="py-28 bg-black relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }} viewport={{ once: true }}
+            className="text-center space-y-4 max-w-3xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gold/10 text-gold text-[9px] font-bold tracking-[0.25em] uppercase font-sans">
+              <Sparkles className="w-3 h-3" /> Funda Premium
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-cream font-serif leading-tight">
+              Funda de cuero con carga integrada
+            </h2>
+            <p className="text-brown text-sm font-sans leading-relaxed max-w-2xl mx-auto">
+              Cada Ray-Ban LED incluye una funda de cuero marrón genuino que funciona como estación de carga portátil.
+              Inspirada en las clásicas fundas Ray-Ban de los años 50, ahora con tecnología de carga inalámbrica Qi.
+            </p>
+          </motion.div>
 
-            {/* Interactive Google Maps Embed */}
-            <div className="lg:col-span-7 flex flex-col justify-between">
-              <div className="p-2 border border-border flex flex-col justify-between h-full bg-surface relative overflow-hidden min-h-[400px]">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.7715886010673!2d-6.033543!3d37.380987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1261367d1cf0f7%3A0x7c3b2e5c5e5b5a0!2sCalle%20Mandarina%202%2C%2041927%20Mairena%20del%20Aljarafe%2C%20Sevilla!5e0!3m2!1ses!2ses!4v1"
-                  width="100%"
-                  height="100%"
-                  className="min-h-[400px] border-0"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Ubicación de Venta El Capricho"
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {[
+              { title: 'Cuero Marrón Genuino', desc: 'Piel vacuno seleccionada, cosida a mano con acabado envejecido premium.' },
+              { title: 'Carga Inalámbrica Qi', desc: 'Coloca tus gafas LED en la funda y se cargan automáticamente sin cables.' },
+              { title: 'Forro Ultrasuave', desc: 'Interior de microfibra que protege las lentes y la montura de arañazos.' },
+              { title: 'Diseño Plegable', desc: 'Ocupa el mínimo espacio en tu bolsillo o mochila. Ideal para llevar siempre.' },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }} viewport={{ once: true }}
+                className="border border-gold/15 p-6 hover:border-gold/40 transition-all bg-black/30">
+                <h3 className="text-base font-bold text-cream font-serif mb-2">{item.title}</h3>
+                <p className="text-brown text-sm font-sans leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Especificaciones Section */}
+      <section id="especificaciones" className="py-28 bg-cream relative overflow-hidden border-t border-gold/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brown-dark font-serif">
+              Especificaciones Técnicas
+            </h2>
+            <div className="tile-divider justify-center my-4">
+              <div className="w-16 h-[1px] bg-gold/70"></div>
+              <div className="tile-star bg-gold/60"></div>
+              <div className="w-16 h-[1px] bg-gold/70"></div>
             </div>
           </div>
+
+          <div className="max-w-3xl mx-auto space-y-0">
+            {[
+              { label: 'Montura', value: 'Acetato de celulosa italiano' },
+              { label: 'Peso', value: '38 g' },
+              { label: 'LEDs', value: '208 micro-LEDs RGB' },
+              { label: 'Brillo máximo', value: '400 lúmenes' },
+              { label: 'Batería', value: '500 mAh (8 h autonomía)' },
+              { label: 'Carga', value: 'USB-C / Qi inalámbrica' },
+              { label: 'Resistencia', value: 'IPX4 (salpicaduras)' },
+              { label: 'Lentes', value: 'UV400, antirreflejantes' },
+              { label: 'Conectividad', value: 'Bluetooth 5.3' },
+              { label: 'Compatibilidad', value: 'iOS 16+ / Android 12+' },
+              { label: 'App', value: 'Ray-Ban LED Controller' },
+              { label: 'Funda', value: 'Cuero marrón con carga Qi' },
+            ].map((item, i) => (
+              <div key={i} className={`flex justify-between items-center py-4 px-4 ${i % 2 === 0 ? 'bg-gold/5' : ''} border-b border-gold/10`}>
+                <span className="text-sm font-bold text-brown-dark font-sans uppercase tracking-wider">{item.label}</span>
+                <span className="text-sm text-brown font-sans text-right">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Compra CTA */}
+      <section id="compra" className="py-28 bg-black relative overflow-hidden border-t border-gold/20">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
+            backgroundSize: '128px 128px',
+          }}
+        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }} viewport={{ once: true }} className="space-y-6 max-w-2xl mx-auto">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream font-serif">
+              Ilumina tu mundo
+            </h2>
+            <p className="text-brown text-base font-sans leading-relaxed">
+              Edición limitada. Incluye gafas LED, funda de cuero con carga inalámbrica, cable USB-C y estuche premium.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <a href="#" className="group px-10 py-4 bg-gold hover:bg-cream text-black text-xs font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center gap-2 shadow-sm hover:shadow-lg">
+                Comprar ahora <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <span className="text-gold/50 text-xs font-sans">Envío gratis · 2 años de garantía</span>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-text text-[#F5E8D8] py-16 border-t-4 border-t-accent">
+      <footer className="bg-black text-cream/60 py-12 border-t border-gold/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 items-start">
-            <div className="lg:col-span-5 space-y-4">
-              <h3 className="font-serif text-2xl font-bold tracking-tight text-primary">VENTA EL CAPRICHO</h3>
-              <p className="text-xs uppercase tracking-widest text-accent font-sans font-bold">Mairena del Aljarafe, Sevilla</p>
-              <p className="text-xs text-background/80 leading-relaxed max-w-sm font-sans">
-                Venta tradicional y salones de celebraciones idóneos para bautizos, comuniones y comidas familiares. Conservamos con orgullo las mejores recetas de toda la vida y la calidez del Aljarafe.
-              </p>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-full border border-gold/30 flex items-center justify-center">
+                <span className="text-gold text-[9px] font-bold tracking-wider">RB</span>
+              </div>
+              <span className="text-sm font-bold tracking-[0.1em] text-cream/50 font-sans uppercase">
+                RAY-BAN <span className="text-gold/50">LED</span>
+              </span>
             </div>
-
-            <div className="lg:col-span-2 space-y-3">
-              <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Enlaces</h4>
-              <ul className="space-y-2 text-xs font-sans text-background/75">
-                <li><a href="#nosotros" className="hover:text-accent">Nosotros</a></li>
-                <li><a href="#carta" className="hover:text-accent">Nuestra Carta</a></li>
-                <li><a href="#eventos" className="hover:text-accent">Simulador de Eventos</a></li>
-                <li><a href="#reservas" className="hover:text-accent">Reservar Mesa</a></li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-2 space-y-3">
-              <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Contacto</h4>
-              <ul className="space-y-2 text-xs font-sans text-background/75">
-                <li><a href="tel:664424736" className="hover:text-accent">664 424 736</a></li>
-                <li><span>Calle Mandarina 2</span></li>
-                <li><span>41927 Mairena del Aljarafe</span></li>
-                <li><span>Sevilla, España</span></li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-3 space-y-3">
-              <h4 className="font-serif text-sm font-bold text-background uppercase tracking-wider">Horario de Cocina</h4>
-              <ul className="space-y-1.5 text-xs font-sans text-background/75">
-                <li><span className="font-semibold text-primary">Mié - Jue:</span> 13:00 - 17:00 h</li>
-                <li><span className="font-semibold text-primary">Viernes:</span> 13:00 - 17:00 / 20:00 - 00:00 h</li>
-                <li><span className="font-semibold text-primary">Sábado:</span> 13:00 - 00:00 h</li>
-                <li><span className="font-semibold text-primary">Domingo:</span> 13:00 - 18:00 h</li>
-                <li className="text-accent font-semibold pt-1">Lunes y Martes cerrado por descanso</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-background/20 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-background/60 font-sans gap-4">
-            <p>&copy; {new Date().getFullYear()} Venta El Capricho. Todos los derechos reservados.</p>
-            <div className="flex gap-4">
-              <span className="hover:text-accent cursor-pointer">Aviso Legal</span>
+            <div className="flex gap-6 text-[11px] font-sans text-cream/40">
+              <span className="hover:text-gold/60 cursor-pointer transition-colors">Aviso Legal</span>
               <span>·</span>
-              <span className="hover:text-accent cursor-pointer">Política de Privacidad</span>
+              <span className="hover:text-gold/60 cursor-pointer transition-colors">Privacidad</span>
               <span>·</span>
-              <span className="hover:text-accent cursor-pointer">Política de Cookies</span>
+              <span className="hover:text-gold/60 cursor-pointer transition-colors">Cookies</span>
             </div>
+            <p className="text-[11px] font-sans text-cream/30">&copy; {new Date().getFullYear()} Ray-Ban LED. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
-
-      {/* Lightbox */}
-      {lightboxOpen && (
-        <div
-          className="fixed inset-0 z-[999] bg-black/90 flex items-center justify-center"
-          style={{ touchAction: 'none' }}
-          onClick={closeLightbox}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <button
-            onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
-            className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 hover:bg-white text-brown rounded-full flex items-center justify-center shadow-lg cursor-pointer transition-colors"
-            aria-label="Cerrar"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); prevImage(); }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/20 hover:bg-white/40 text-white rounded-full flex items-center justify-center cursor-pointer transition-colors"
-            aria-label="Anterior"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          <img
-            key={lightboxIndex}
-            src={galleryImages[lightboxIndex]}
-            alt={`Galería ${lightboxIndex + 1}`}
-            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain select-none"
-            style={{ pointerEvents: 'none' }}
-            draggable={false}
-          />
-
-          <button
-            onClick={(e) => { e.stopPropagation(); nextImage(); }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/20 hover:bg-white/40 text-white rounded-full flex items-center justify-center cursor-pointer transition-colors"
-            aria-label="Siguiente"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-            {galleryImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setLightboxIndex(i)}
-                className={`rounded-full transition-all cursor-pointer ${
-                  i === lightboxIndex ? 'w-3 h-3 bg-white' : 'w-2 h-2 bg-white/40'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
 
     </div>
   );
