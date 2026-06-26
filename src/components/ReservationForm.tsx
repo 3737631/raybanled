@@ -37,7 +37,7 @@ export default function ReservationForm() {
             <Calendar className="w-3.5 h-3.5 text-accent" /> Reservar Mesa
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text mt-4 mb-2">Disfruta la Experiencia</h2>
-          <p className="text-sm text-[#706040]">Asegura tu mesa en nuestros acogedores comedores o en la fresca terraza exterior.</p>
+          <p className="text-sm text-[#6B4423]">Asegura tu mesa en nuestros acogedores comedores o en la fresca terraza exterior.</p>
         </div>
 
         <div className="p-6 sm:p-10 border border-border relative bg-white/95 rounded-none shadow-sm">

@@ -37,7 +37,7 @@ export default function MenuCatalog() {
   });
 
   return (
-    <section id="carta" className="py-24 bg-[#F3EEE4] relative overflow-hidden border-b border-primary/30">
+    <section id="carta" className="py-24 bg-[#F5E8D8] relative overflow-hidden border-b border-primary/30">
       <div className="absolute top-0 left-0 w-full h-4 bg-tile-pattern opacity-30"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -89,7 +89,7 @@ export default function MenuCatalog() {
                 key={f.id}
                 onClick={() => setFilter(f.id as any)}
                 className={`px-4 py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all border rounded-full cursor-pointer flex items-center gap-1.5 ${
-                  isSelected ? 'bg-[#3F3428] text-[#F3EEE4] border-[#3F3428]' : 'border-primary/60 text-brown hover:border-accent hover:text-accent'
+                  isSelected ? 'bg-[#4A2E1A] text-[#F5E8D8] border-[#4A2E1A]' : 'border-primary/60 text-brown hover:border-accent hover:text-accent'
                 }`}
               >
                 {f.icon}
@@ -122,7 +122,7 @@ export default function MenuCatalog() {
                         {item.name}
                       </h3>
                       <div className="flex-1 border-b border-dashed border-primary/55 mx-2 relative top-[-4px]"></div>
-                      <span className="text-sm sm:text-base font-bold text-[#3F3428] whitespace-nowrap font-serif italic">
+                      <span className="text-sm sm:text-base font-bold text-[#4A2E1A] whitespace-nowrap font-serif italic">
                         {item.price.toFixed(2)} €
                       </span>
                     </div>

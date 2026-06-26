@@ -8,7 +8,7 @@ export default function InteractiveTable() {
   const [selectedDish, setSelectedDish] = useState<InteractiveTableDish | null>(interactiveDishes[0]);
   const touchStartRef = useRef<number | null>(null);
 
-  const renderDishIcon = (dishId: string, className = "w-6 h-6 text-[#B8826A]") => {
+  const renderDishIcon = (dishId: string, className = "w-6 h-6 text-[#C8A97E]") => {
     switch (dishId) {
       case 'it1': return <ChefHat className={className} />;
       case 'it2': return <Flame className={className} />;
@@ -123,7 +123,7 @@ export default function InteractiveTable() {
                           isSelected ? 'border-accent/40' : 'border-primary/30'
                         }`}></div>
                         <span className="relative z-10">
-                          {renderDishIcon(dish.id, isSelected ? "w-6 h-6 sm:w-8 sm:h-8 text-accent" : "w-5 h-5 sm:w-7 sm:h-7 text-[#B8826A]/90")}
+                          {renderDishIcon(dish.id, isSelected ? "w-6 h-6 sm:w-8 sm:h-8 text-accent" : "w-5 h-5 sm:w-7 sm:h-7 text-[#C8A97E]/90")}
                         </span>
                       </div>
 
@@ -146,7 +146,7 @@ export default function InteractiveTable() {
             </div>
 
             <div className="w-full text-center relative z-20 pb-1">
-              <span className="text-[10px] uppercase tracking-widest text-[#F3EEE4] bg-black/20 backdrop-blur-sm px-3.5 py-1 rounded-full font-sans">
+              <span className="text-[10px] uppercase tracking-widest text-[#F5E8D8] bg-black/20 backdrop-blur-sm px-3.5 py-1 rounded-full font-sans">
                 {selectedDish ? `${selectedDish.name} - ${selectedDish.description} (${selectedDish.price.toFixed(2)} €)` : "Experiencia Sensorial"}
               </span>
             </div>

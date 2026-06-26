@@ -98,7 +98,7 @@ export default function ScrollMantelSection() {
           style={{ 
             height: tableclothHeight,
             y: tableclothWaveY,
-            backgroundColor: '#B8826A'
+            backgroundColor: '#C8A97E'
           }}
           className="absolute top-0 left-0 w-full z-10 shadow-[0_15px_40px_rgba(63,52,40,0.18)] flex flex-col justify-between overflow-hidden"
         >
@@ -117,7 +117,7 @@ export default function ScrollMantelSection() {
           <div className="absolute bottom-0 left-0 w-full z-25 translate-y-[96%] pointer-events-none select-none">
             <svg 
               viewBox="0 0 1440 48" 
-              fill="#B8826A" 
+              fill="#C8A97E" 
               className="w-full h-12 drop-shadow-[0_8px_4px_rgba(63,52,40,0.15)]"
               preserveAspectRatio="none"
             >
@@ -126,7 +126,7 @@ export default function ScrollMantelSection() {
             <svg 
               viewBox="0 0 1440 24" 
               fill="none" 
-              stroke="#F3EEE4" 
+              stroke="#F5E8D8" 
               strokeWidth="2" 
               strokeDasharray="4 6"
               className="w-full h-6 -mt-10 opacity-35"
@@ -203,34 +203,34 @@ export default function ScrollMantelSection() {
 
               <motion.div 
                 style={{ opacity: item4Opacity, scale: item4Scale, y: item4Y, rotate: item4Rotate }}
-                className="bg-brown text-[#F3EEE4] p-7 border border-[#CFC2AE]/25 rounded-none relative overflow-hidden"
+                className="bg-brown text-[#F5E8D8] p-7 border border-[#C8A97E]/25 rounded-none relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-3 h-full bg-black/15 pointer-events-none" />
                 <div className="pl-3.5">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#B8826A] font-sans flex items-center gap-1.5 mb-2">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#C8A97E] font-sans flex items-center gap-1.5 mb-2">
                     <Phone className="w-3 h-3" /> Datos de Contacto
                   </span>
                   <h4 className="font-serif font-bold text-xl text-white leading-none mb-4 uppercase tracking-wide">
                     Reservas y Dirección
                   </h4>
-                  <div className="space-y-3 text-xs font-sans text-[#F3EEE4]/85">
+                  <div className="space-y-3 text-xs font-sans text-[#F5E8D8]/85">
                     <div className="flex items-start gap-2.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#B8826A] shrink-0 mt-0.5" />
+                      <MapPin className="w-3.5 h-3.5 text-[#C8A97E] shrink-0 mt-0.5" />
                       <div>
                         <p className="font-bold text-white">Venta El Capricho</p>
-                        <p className="text-[#F3EEE4]/70">Calle Mandarina 2, Mairena del Aljarafe</p>
+                        <p className="text-[#F5E8D8]/70">Calle Mandarina 2, Mairena del Aljarafe</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2.5">
-                      <Phone className="w-3.5 h-3.5 text-[#B8826A] shrink-0 mt-0.5" />
+                      <Phone className="w-3.5 h-3.5 text-[#C8A97E] shrink-0 mt-0.5" />
                       <div>
                         <p className="font-bold text-white">Llámanos</p>
-                        <p className="text-[#F3EEE4]/70">664 424 736 (Atención rápida)</p>
+                        <p className="text-[#F5E8D8]/70">664 424 736 (Atención rápida)</p>
                       </div>
                     </div>
                   </div>
                   <div className="mt-5 pt-3 border-t border-white/10 flex">
-                    <a href="#reservas" className="px-3.5 py-1.5 bg-[#B8826A] hover:bg-white text-xs font-bold text-text uppercase tracking-wider transition-colors duration-200 pointer-events-auto rounded-none">
+                    <a href="#reservas" className="px-3.5 py-1.5 bg-[#C8A97E] hover:bg-white text-xs font-bold text-text uppercase tracking-wider transition-colors duration-200 pointer-events-auto rounded-none">
                       Reservar Mesa
                     </a>
                   </div>
@@ -274,18 +274,18 @@ export default function ScrollMantelSection() {
                 </p>
               </motion.div>
 
-              <motion.div style={{ opacity: mItem4Opacity, y: mItem4Y }} className="absolute inset-x-2 bg-brown text-[#F3EEE4] p-5 border border-[#CFC2AE]/25 rounded-none">
+              <motion.div style={{ opacity: mItem4Opacity, y: mItem4Y }} className="absolute inset-x-2 bg-brown text-[#F5E8D8] p-5 border border-[#C8A97E]/25 rounded-none">
                 <div className="absolute top-0 left-0 w-2.5 h-full bg-black/15 pointer-events-none" />
                 <div className="pl-3">
-                  <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-[#B8826A] font-sans flex items-center gap-1 mb-1">
+                  <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-[#C8A97E] font-sans flex items-center gap-1 mb-1">
                     <Phone className="w-2.5 h-2.5" /> Datos Útiles
                   </span>
                   <h4 className="font-serif font-bold text-lg text-white uppercase tracking-wide mb-2.5">Contacto</h4>
-                  <div className="space-y-2 text-[11px] font-sans text-[#F3EEE4]/85 mb-3.5">
+                  <div className="space-y-2 text-[11px] font-sans text-[#F5E8D8]/85 mb-3.5">
                     <p className="leading-tight">Calle Mandarina 2, Mairena del Aljarafe</p>
                     <p className="leading-tight">664 424 736</p>
                   </div>
-                  <a href="#reservas" className="inline-block px-3.5 py-1.5 bg-[#B8826A] text-xs font-bold text-text uppercase tracking-wider rounded-none">Reservar Mesa</a>
+                  <a href="#reservas" className="inline-block px-3.5 py-1.5 bg-[#C8A97E] text-xs font-bold text-text uppercase tracking-wider rounded-none">Reservar Mesa</a>
                 </div>
               </motion.div>
 
@@ -295,9 +295,9 @@ export default function ScrollMantelSection() {
         </motion.div>
 
         {/* Side Scroll tracker dots */}
-        <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 hidden xs:flex flex-col items-center gap-4 text-[#3F3428]/40 font-mono text-[9px]">
+        <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 hidden xs:flex flex-col items-center gap-4 text-[#4A2E1A]/40 font-mono text-[9px]">
           <span className="rotate-90 origin-center translate-y-3.5 uppercase tracking-wider">HISTORIA</span>
-          <div className="w-[1.5px] h-16 bg-[#3F3428]/10 relative">
+          <div className="w-[1.5px] h-16 bg-[#4A2E1A]/10 relative">
             <motion.div style={{ scaleY: smoothProgress, originY: 0 }} className="absolute inset-0 bg-accent" />
           </div>
           <span className="rotate-90 origin-center -translate-y-1 uppercase tracking-wider">CONTACTO</span>

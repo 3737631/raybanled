@@ -10,6 +10,7 @@ import EventCustomizer from './components/EventCustomizer';
 import ReviewsCarousel from './components/ReviewsCarousel';
 import ReservationForm from './components/ReservationForm';
 import ScrollMantelSection from './components/ScrollMantelSection';
+import FrameScrollAnimation from './components/FrameScrollAnimation';
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -107,23 +108,23 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <a href="#" className="flex flex-col group select-none">
-              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-[0.1em] text-[#3F3428] font-serif uppercase group-hover:text-[#B8826A] transition-colors">
+              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-[0.1em] text-[#4A2E1A] font-serif uppercase group-hover:text-[#C8A97E] transition-colors">
                 VENTA EL CAPRICHO
               </span>
-              <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6B5A45] font-sans">
+              <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6B4423] font-sans">
                 Mairena del Aljarafe
               </span>
             </a>
 
             <nav className="hidden lg:flex items-center gap-8">
-              <a href="#nosotros" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Nosotros</a>
-              <a href="#carta" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Carta</a>
-              <a href="#eventos" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Celebraciones</a>
-              <a href="#opiniones" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Opiniones</a>
-              <a href="#ubicacion" className="text-xs font-bold uppercase tracking-widest text-[#3F3428] hover:text-[#B8826A] border-b border-transparent hover:border-[#B8826A] pb-1 transition-all font-sans">Horario y Mapa</a>
+              <a href="#nosotros" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Nosotros</a>
+              <a href="#carta" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Carta</a>
+              <a href="#eventos" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Celebraciones</a>
+              <a href="#opiniones" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Opiniones</a>
+              <a href="#ubicacion" className="text-xs font-bold uppercase tracking-widest text-[#4A2E1A] hover:text-[#C8A97E] border-b border-transparent hover:border-[#C8A97E] pb-1 transition-all font-sans">Horario y Mapa</a>
               <a 
                 href="#reservas" 
-                className="px-6 py-2.5 bg-[#B8826A] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#6B5A45] transition-colors rounded-none shadow-sm"
+                className="px-6 py-2.5 bg-[#C8A97E] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#6B4423] transition-colors rounded-none shadow-sm"
               >
                 Reservar Mesa
               </a>
@@ -131,7 +132,7 @@ export default function App() {
 
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-none hover:bg-primary/20 text-[#3F3428] transition-colors cursor-pointer border border-[#D6C3A5]"
+              className="lg:hidden p-2 rounded-none hover:bg-primary/20 text-[#4A2E1A] transition-colors cursor-pointer border border-[#C8A97E]"
               aria-label="Abrir Menú"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -146,16 +147,16 @@ export default function App() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="lg:hidden bg-[#F3EEE4] border-t border-[#D6C3A5] shadow-lg"
+              className="lg:hidden bg-[#F5E8D8] border-t border-[#C8A97E] shadow-lg"
             >
               <div className="px-4 pt-3 pb-6 space-y-2">
-                <a href="#nosotros" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Nosotros</a>
-                <a href="#carta" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Carta y Especialidades</a>
-                <a href="#eventos" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Simulador de Celebraciones</a>
-                <a href="#opiniones" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Opiniones</a>
-                <a href="#ubicacion" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#3F3428] font-sans">Horario y Ubicación</a>
+                <a href="#nosotros" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Nosotros</a>
+                <a href="#carta" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Carta y Especialidades</a>
+                <a href="#eventos" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Simulador de Celebraciones</a>
+                <a href="#opiniones" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Opiniones</a>
+                <a href="#ubicacion" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#4A2E1A] font-sans">Horario y Ubicación</a>
                 <div className="pt-3 px-3">
-                  <a href="#reservas" onClick={() => setMobileMenuOpen(false)} className="w-full block py-3 bg-[#B8826A] text-white text-center font-bold text-xs uppercase tracking-widest font-sans rounded-none">Reservar Mesa en línea</a>
+                  <a href="#reservas" onClick={() => setMobileMenuOpen(false)} className="w-full block py-3 bg-[#C8A97E] text-white text-center font-bold text-xs uppercase tracking-widest font-sans rounded-none">Reservar Mesa en línea</a>
                 </div>
               </div>
             </motion.div>
@@ -163,61 +164,7 @@ export default function App() {
         </AnimatePresence>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-tile-pattern opacity-10 pointer-events-none"></div>
-        
-        {/* Dynamic Hanging Tablecloth Decor */}
-        <motion.div 
-          style={{ y: mantelY }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
-          className="absolute top-[68px] left-0 w-full z-10 pointer-events-none select-none"
-        >
-          <motion.div style={{ height: mantelHeight }} className="bg-mantel w-full shadow-inner"></motion.div>
-        </motion.div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center space-y-10">
-          <div className="space-y-6 max-w-4xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#B8826A]/5 text-[#B8826A] text-[9px] font-bold tracking-[0.25em] uppercase font-sans">
-              <Sparkles className="w-3 h-3" /> Sabor a leña, alma de Aljarafe
-            </span>
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-[#3F3428] tracking-tight font-serif select-all leading-tight">
-              Venta El Capricho
-            </h1>
-            <p className="font-cursive text-4xl sm:text-5xl md:text-6xl text-[#B8826A] leading-relaxed max-w-3xl mx-auto">
-              Donde cada celebración familiar se convierte en un recuerdo imborrable
-            </p>
-            <div className="tile-divider my-4">
-              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
-              <div className="tile-star bg-[#8FA3B1]/60"></div>
-              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
-            </div>
-            <p className="text-xs sm:text-sm md:text-base text-[#6B5A45]/90 max-w-2xl mx-auto font-sans leading-relaxed">
-              Descubre un rincón único en <span className="font-semibold text-[#3F3428]">Mairena del Aljarafe</span>. 
-              Gastronomía tradicional andaluza, comedores familiares, patio andaluz y el mejor servicio para comuniones, bautizos y bodas íntimas.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto pt-4">
-            <a href="#reservas" className="group w-full sm:w-auto px-8 py-3.5 bg-[#B8826A] hover:bg-[#3F3428] text-[#F3EEE4] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 font-sans flex items-center justify-center gap-2 rounded-full shadow-sm hover:shadow-md">
-              <span>Reservar Mesa</span> 
-              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-[#6B5A45] max-w-3xl mx-auto pt-8 border-t border-[#D6C3A5]">
-            <span className="flex items-center gap-2 font-sans tracking-wide">
-              <Phone className="w-4 h-4 text-[#B8826A]" /> <strong className="text-[#3F3428]">664 424 736</strong>
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D6C3A5] hidden sm:inline-block"></span>
-            <span className="flex items-center gap-2 font-sans tracking-wide">
-              <MapPin className="w-4 h-4 text-[#B8826A]" /> <span className="text-[#3F3428]">Calle Mandarina 2, Mairena del Aljarafe, Sevilla</span>
-            </span>
-          </div>
-        </div>
-      </section>
+      <FrameScrollAnimation />
 
       {/* Nosotros Section */}
       <section id="nosotros" className="py-24 bg-background relative overflow-hidden border-t border-border">
@@ -322,9 +269,9 @@ export default function App() {
               Nuestra Esencia en Imágenes
             </h2>
             <div className="tile-divider justify-center my-4">
-              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
-              <div className="tile-star bg-[#8FA3B1]/60"></div>
-              <div className="w-16 h-[1px] bg-[#D6C3A5]/70"></div>
+              <div className="w-16 h-[1px] bg-[#C8A97E]/70"></div>
+              <div className="tile-star bg-[#C8A97E]/60"></div>
+              <div className="w-16 h-[1px] bg-[#C8A97E]/70"></div>
             </div>
           </div>
 
@@ -445,7 +392,7 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-text text-[#F5F0E8] py-16 border-t-4 border-t-accent">
+      <footer className="bg-text text-[#F5E8D8] py-16 border-t-4 border-t-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 items-start">
             <div className="lg:col-span-5 space-y-4">

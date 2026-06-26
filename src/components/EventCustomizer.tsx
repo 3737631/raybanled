@@ -108,7 +108,7 @@ export default function EventCustomizer() {
                 <input
                   type="range" min="15" max="200" value={guestsCount}
                   onChange={(e) => setGuestsCount(parseInt(e.target.value, 10))}
-                  className="w-full h-2 bg-[#D6C3A5]/40 rounded-full appearance-none cursor-pointer accent-accent"
+                  className="w-full h-2 bg-[#C8A97E]/40 rounded-full appearance-none cursor-pointer accent-accent"
                 />
               </div>
 
@@ -140,7 +140,7 @@ export default function EventCustomizer() {
 
           {/* Budget Display Card */}
           <div className="lg:col-span-5 flex flex-col justify-between">
-            <div className="p-6 border border-primary/40 h-full flex flex-col justify-between rounded-3xl shadow-lg bg-[#E7DDCC]/35 backdrop-blur-md">
+            <div className="p-6 border border-primary/40 h-full flex flex-col justify-between rounded-3xl shadow-lg bg-[#E8DCC8]/35 backdrop-blur-md">
               <div>
                 <div className="border-b border-primary/30 pb-4 mb-4">
                   <span className="text-xs font-bold uppercase tracking-wider text-accent">Resumen del Presupuesto</span>
